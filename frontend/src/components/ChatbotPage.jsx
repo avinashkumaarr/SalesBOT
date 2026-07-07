@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 
 const ROLES = ["Advisor", "Price Tracker", "Spec Analyst", "Deal Finder"];
 const VIDEO_URL = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
-const API_BASE = "http://localhost:3001/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
 
 // ─── Auth Modal ──────────────────────────────────────────────────────────────
 function AuthModal({ onAuth, onClose }) {

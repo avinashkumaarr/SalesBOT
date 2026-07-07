@@ -6,6 +6,8 @@
  * and direct redirect ("I'm Feeling Lucky" btnI=1) as fallback.
  */
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
+
 /**
  * Helper: Check if a URL string is a direct item/product page (not a generic search or homepage URL)
  */
@@ -189,27 +191,27 @@ export const generateCanonicalStoreUrl = (product, storeName) => {
     if (fk && fk.id && !String(fk.id).includes('84b12384a56d9')) return `https://www.flipkart.com/${cleanSlug}/p/${fk.id}`;
     if (typeof fk === 'string' && fk.startsWith('itm') && !fk.includes('84b12384a56d9')) return `https://www.flipkart.com/${cleanSlug}/p/${fk}`;
     if (typeof fk === 'string' && fk.startsWith('http')) return fk;
-    return `http://localhost:3001/api/products/redirect?store=Flipkart&title=${encodeURIComponent(cleanTitle)}`;
+    return `${API_BASE}/products/redirect?store=Flipkart&title=${encodeURIComponent(cleanTitle)}`;
   }
 
   // 3. Croma
   if (lowerStore.includes('croma')) {
-    return `http://localhost:3001/api/products/redirect?store=Croma&title=${encodeURIComponent(cleanTitle)}`;
+    return `${API_BASE}/products/redirect?store=Croma&title=${encodeURIComponent(cleanTitle)}`;
   }
 
   // 4. Reliance Digital
   if (lowerStore.includes('reliance')) {
-    return `http://localhost:3001/api/products/redirect?store=Reliance+Digital&title=${encodeURIComponent(cleanTitle)}`;
+    return `${API_BASE}/products/redirect?store=Reliance+Digital&title=${encodeURIComponent(cleanTitle)}`;
   }
 
   // 5. Vijay Sales
   if (lowerStore.includes('vijay')) {
-    return `http://localhost:3001/api/products/redirect?store=Vijay+Sales&title=${encodeURIComponent(cleanTitle)}`;
+    return `${API_BASE}/products/redirect?store=Vijay+Sales&title=${encodeURIComponent(cleanTitle)}`;
   }
 
   // 6. Tata CliQ
   if (lowerStore.includes('cliq')) {
-    return `http://localhost:3001/api/products/redirect?store=Tata+CliQ&title=${encodeURIComponent(cleanTitle)}`;
+    return `${API_BASE}/products/redirect?store=Tata+CliQ&title=${encodeURIComponent(cleanTitle)}`;
   }
 
   return `https://www.amazon.in/dp/B0${String(hash).padStart(8, '0').slice(0, 8)}`;
