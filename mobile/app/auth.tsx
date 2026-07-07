@@ -77,8 +77,8 @@ export default function AuthScreen() {
             </Text>
             <Text className="text-zinc-500 text-sm font-light" style={{ fontFamily: 'Inter_400Regular' }}>
               {mode === 'login'
-                ? 'Sign in to your ShopBot AI account'
-                : 'Create your ShopBot AI account'}
+                ? 'Sign in to your SalesBOT account'
+                : 'Create your SalesBOT account'}
             </Text>
           </View>
 

@@ -94,7 +94,7 @@ export default function PlansScreen() {
               className="text-2xl text-white"
               style={{ fontFamily: 'InstrumentSerif_400Regular_Italic' }}
             >
-              ShopBot AI
+              SalesBOT
             </Text>
             <Text className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5" style={{ fontFamily: 'Inter_400Regular' }}>
               Upgrade Plans
@@ -279,9 +279,9 @@ export default function PlansScreen() {
       <SidebarDrawer
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        onNewChat={() => router.push('/chatbot')}
-        onSelectHistoryItem={(txt) => {
-          router.push({ pathname: '/chatbot', params: { prompt: txt } });
+        onNewChat={() => router.push('/')}
+        onSelectHistoryItem={(item) => {
+          router.push({ pathname: '/', params: { loadSessionId: item.sessionId || '', prompt: item.title } });
         }}
         user={user}
         onLogin={() => router.push('/auth')}

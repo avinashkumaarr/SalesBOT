@@ -58,7 +58,8 @@ export const chatApi = {
     history: { role: string; content: string }[]
   ) =>
     api.post('/chat', { message, sessionId, history }),
-  history: () => api.get('/chat/history'),
+  history: (sessionId?: string) =>
+    api.get('/chat/history', { params: sessionId ? { sessionId } : {} }),
 };
 
 // Product redirect URL builder (same logic as frontend)

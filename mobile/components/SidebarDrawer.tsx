@@ -12,7 +12,7 @@ interface SidebarDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   onNewChat: () => void;
-  onSelectHistoryItem: (text: string) => void;
+  onSelectHistoryItem: (item: any) => void;
   user: any;
   onLogin: () => void;
   onLogout: () => void;
@@ -54,16 +54,22 @@ export default function SidebarDrawer({
   const loadHistory = async () => {
     setLoadingHistory(true);
     try {
-      // 1. Get local recent searches
+      // 1. Get full local saved sessions
+      const localSessionsStr = await AsyncStorage.getItem('@shopbot_sessions');
+      let localSessions: any[] = localSessionsStr ? JSON.parse(localSessionsStr) : [];
+
+      // 2. Get local recent searches (strings)
       const localStr = await AsyncStorage.getItem('@shopbot_recent_searches');
       let localList: string[] = localStr ? JSON.parse(localStr) : [];
 
-      // 2. Try fetching backend history if logged in
+      // 3. Try fetching backend history if logged in
       let backendList: any[] = [];
       if (user) {
         try {
           const res = await chatApi.history();
-          if (res.data?.success && Array.isArray(res.data.history)) {
+          if (res.data?.success && Array.isArray(res.data.sessions)) {
+            backendList = res.data.sessions;
+          } else if (res.data?.success && Array.isArray(res.data.history)) {
             backendList = res.data.history;
           }
         } catch (e) {
@@ -71,17 +77,27 @@ export default function SidebarDrawer({
         }
       }
 
-      // Combine and deduplicate
+      // Combine and deduplicate: prioritize backend, then full local sessions, then bare strings
       const combined = [
         ...backendList.map(h => ({
-          id: h._id || Math.random().toString(),
+          id: h._id || h.sessionId || h.id || Math.random().toString(),
+          sessionId: h.sessionId || h.id || h._id,
           title: h.title || h.message || h.query || 'Chat Session',
-          date: h.createdAt ? new Date(h.createdAt).toLocaleDateString() : 'Recent'
+          date: h.createdAt || h.updatedAt ? new Date(h.createdAt || h.updatedAt).toLocaleDateString() : 'Recent',
+          messages: h.messages || [],
+        })),
+        ...localSessions.map((s, idx) => ({
+          id: s.sessionId || `ls_${idx}`,
+          sessionId: s.sessionId,
+          title: s.title || 'Chat Session',
+          date: s.date || 'Recent',
+          messages: s.messages || [],
         })),
         ...localList.map((item, idx) => ({
           id: `local_${idx}`,
           title: item,
-          date: 'Recent Search'
+          date: 'Recent Search',
+          messages: [],
         }))
       ];
 
@@ -132,7 +148,7 @@ export default function SidebarDrawer({
                   </Text>
                 </View>
                 <Text className="text-white text-xl" style={{ fontFamily: 'InstrumentSerif_400Regular_Italic' }}>
-                  ShopBot AI
+                  SalesBOT
                 </Text>
               </View>
               <TouchableOpacity onPress={onClose} className="p-1.5 rounded-full bg-zinc-900">
@@ -171,7 +187,7 @@ export default function SidebarDrawer({
                 activeOpacity={0.7}
                 onPress={() => {
                   onClose();
-                  router.push('/');
+                  router.push('/home');
                 }}
                 className="flex-row items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-zinc-900"
               >
@@ -185,13 +201,13 @@ export default function SidebarDrawer({
                 activeOpacity={0.7}
                 onPress={() => {
                   onClose();
-                  router.push('/chatbot');
+                  router.push('/');
                 }}
                 className="flex-row items-center gap-3 py-2.5 px-3 rounded-xl hover:bg-zinc-900 mt-1"
               >
                 <Feather name="message-circle" size={16} color="#34d399" />
                 <Text className="text-zinc-200 text-sm font-medium" style={{ fontFamily: 'Inter_500Medium' }}>
-                  ShopBot AI
+                  SalesBOT AI
                 </Text>
               </TouchableOpacity>
 
@@ -235,7 +251,7 @@ export default function SidebarDrawer({
                     key={item.id}
                     activeOpacity={0.7}
                     onPress={() => {
-                      onSelectHistoryItem(item.title);
+                      onSelectHistoryItem(item);
                       onClose();
                     }}
                     className="bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-3 mb-2 flex-row items-center justify-between"

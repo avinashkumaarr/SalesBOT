@@ -1,20 +1,20 @@
 {
   "expo": {
-    "name": "ShopBot AI",
-    "slug": "shopbot-ai",
+    "name": "SalesBOT",
+    "slug": "salesbot",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
-    "scheme": "shopbot",
+    "scheme": "salesbot",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.shopbot.ai",
+      "bundleIdentifier": "com.salesbot.ai",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "ShopBot AI uses the microphone for voice search."
+        "NSMicrophoneUsageDescription": "SalesBOT uses the microphone for voice search."
       }
     },
     "android": {
-      "package": "com.shopbot.ai",
+      "package": "com.salesbot.ai",
       "permissions": [
         "RECORD_AUDIO"
       ]

@@ -27,23 +27,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <View style={{
-              width: 32, height: 32,
-              alignItems: 'center', justifyContent: 'center',
-              backgroundColor: focused ? 'rgba(255,255,255,0.08)' : 'transparent',
-              borderRadius: 10,
-            }}>
-              <Feather name="home" size={18} color={color} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="chatbot"
-        options={{
-          title: 'ShopBot AI',
+          title: 'SalesBOT AI',
           tabBarIcon: ({ color, focused }) => (
             <View style={{
               width: 32, height: 32,
@@ -52,6 +36,22 @@ export default function TabsLayout() {
               borderRadius: 10,
             }}>
               <Feather name="message-circle" size={18} color={color} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: 'Home Section',
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{
+              width: 32, height: 32,
+              alignItems: 'center', justifyContent: 'center',
+              backgroundColor: focused ? 'rgba(255,255,255,0.08)' : 'transparent',
+              borderRadius: 10,
+            }}>
+              <Feather name="home" size={18} color={color} />
             </View>
           ),
         }}
@@ -70,6 +70,12 @@ export default function TabsLayout() {
               <Feather name="zap" size={18} color={color} />
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="chatbot"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

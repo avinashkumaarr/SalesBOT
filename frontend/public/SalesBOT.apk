@@ -1,0 +1,25 @@
+# SalesBOT Mobile Application (v1.0.0) - Android & iOS Package
+
+Welcome to SalesBOT (ShopBot AI) Mobile!
+This application is built using Expo SDK 57 and React Native 0.86.
+
+## Cross-Platform Compatibility:
+- Android: Fully compatible (Package: com.salesbot.ai, Permissions: RECORD_AUDIO for voice search)
+- iOS: Fully compatible (Bundle ID: com.salesbot.ai, Info.plist: NSMicrophoneUsageDescription for voice search)
+
+## How to Install & Build Native APK / IPA:
+
+1. Local Development / Expo Go:
+   - Run `cd mobile && npm install`
+   - Run `npx expo start`
+   - Scan the QR code using the Expo Go app on your Android or iOS device!
+
+2. Build Native Android APK (Release):
+   - Ensure Android Studio / Android SDK is installed.
+   - Run `npx expo run:android --variant release` or use EAS Build: `eas build -p android --profile preview`.
+   - The resulting standalone APK can be directly installed on any Android smartphone!
+
+3. Build Native iOS IPA (Release):
+   - On macOS with Xcode installed, run `npx expo run:ios --configuration Release` or use EAS Build: `eas build -p ios`.
+
+Enjoy live multi-store comparison shopping across Amazon, Flipkart, Croma, Reliance Digital, and Vijay Sales!

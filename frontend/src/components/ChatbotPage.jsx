@@ -83,9 +83,9 @@ function AuthModal({ onAuth, onClose }) {
         {/* Header */}
         <div className="text-center mb-6">
           <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto mb-3">
-            <span className="text-xl font-bold text-black">TC</span>
+            <span className="text-xl font-bold text-black">SB</span>
           </div>
-          <h2 className="text-xl font-bold text-white">ShopBot AI</h2>
+          <h2 className="text-xl font-bold text-white">SalesBOT</h2>
           <p className="text-zinc-400 text-sm mt-1">
             {mode === 'login' ? 'Sign in to save your wishlist & price alerts' : 'Create your account to get started'}
           </p>
@@ -638,11 +638,11 @@ export default function ChatbotPage() {
               className="flex flex-col items-center text-center w-full"
             >
               <p className="text-[10px] sm:text-xs text-muted uppercase tracking-[0.3em] mb-6 font-semibold">
-                SHOPBOT · AI SHOPPING ASSISTANT
+                SALESBOT · AI SHOPPING ASSISTANT
               </p>
 
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display italic leading-[0.9] tracking-tight text-text-primary mb-6">
-                ShopBot AI
+                SalesBOT
               </h1>
 
               <div className="text-lg sm:text-2xl md:text-3xl text-muted font-body mb-6 flex items-center justify-center gap-2">
@@ -680,6 +680,30 @@ export default function ChatbotPage() {
                     {prompt}
                   </button>
                 ))}
+              </div>
+
+              {/* Download APK Banner */}
+              <div className="mt-8 flex items-center justify-center">
+                <a
+                  href="/SalesBOT.apk"
+                  download="SalesBOT.apk"
+                  className="group flex items-center gap-3 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-emerald-500/30 hover:border-emerald-500/80 rounded-2xl px-5 py-3 shadow-lg shadow-emerald-500/10 hover:scale-105 transition-all duration-300"
+                  title="Download SalesBOT APK for Android & iOS"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl">
+                    📱
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                      <span>Download SalesBOT App</span>
+                      <span className="bg-emerald-500/20 text-emerald-400 text-[9px] px-1.5 py-0.5 rounded-full uppercase font-mono">v1.0.0</span>
+                    </div>
+                    <div className="text-[10px] text-zinc-400">Android APK & iOS Compatible • Live Multi-Store Pricing</div>
+                  </div>
+                  <div className="text-zinc-500 group-hover:text-white transition-colors ml-2 font-bold">
+                    ↓
+                  </div>
+                </a>
               </div>
             </motion.div>
           ) : (

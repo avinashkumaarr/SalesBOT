@@ -119,6 +119,22 @@ export default function Navbar({ currentPath }) {
             Plans <span className="font-sans text-[10px] sm:text-xs">↓</span>
           </div>
         </button>
+
+        {/* 6. Divider */}
+        <div className="w-px h-5 bg-stroke mx-2 hidden sm:block" />
+
+        {/* 7. Download APK button */}
+        <a
+          href="/SalesBOT.apk"
+          download="SalesBOT.apk"
+          className="relative p-[1px] rounded-full overflow-hidden group/apk cursor-pointer flex items-center justify-center hidden sm:flex shadow-md shadow-emerald-500/10"
+          title="Download SalesBOT APK for Android & iOS"
+        >
+          <div className="absolute inset-[-2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-70 group-hover/apk:opacity-100 transition-opacity duration-300 animate-pulse" />
+          <div className="relative bg-surface/95 backdrop-blur-md text-emerald-400 group-hover/apk:text-white transition-colors duration-300 rounded-full px-3.5 py-1.5 sm:py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold">
+            <span>📱</span> Download APK
+          </div>
+        </a>
       </div>
     </nav>
   );

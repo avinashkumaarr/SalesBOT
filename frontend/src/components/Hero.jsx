@@ -131,6 +131,19 @@ export default function Hero() {
               <span>⚡</span> Launch AI Assistant ↗
             </div>
           </button>
+
+          {/* Download APK / App */}
+          <a
+            href="/SalesBOT.apk"
+            download="SalesBOT.apk"
+            className="relative group p-[1.5px] rounded-full hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden flex items-center justify-center shadow-lg shadow-emerald-500/10"
+            title="Download SalesBOT APK for Android & iOS"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-80 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
+            <div className="relative px-8 py-3.5 rounded-full bg-zinc-950 text-emerald-400 group-hover:text-white text-sm font-bold transition-all duration-300 flex items-center gap-2">
+              <span>📱</span> Download APK / App ↗
+            </div>
+          </a>
         </div>
       </div>
 
