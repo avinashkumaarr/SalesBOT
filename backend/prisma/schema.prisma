@@ -1,0 +1,191 @@
+// Shopping Sales Bot - Prisma Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  password     String
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  chats          Chat[]
+  chatSessions   ChatSession[]
+  preferences    UserPreference?
+  searchHistory  SearchHistory[]
+  wishlist       Wishlist[]
+  recentlyViewed RecentlyViewed[]
+
+  @@map("users")
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  userId    String
+  sessionId String   @default(cuid())
+  role      String   // 'user' | 'assistant'
+  content   String   @db.Text
+  agentType String?
+  metadata  Json?    // Store structured product data, comparisons etc.
+  timestamp DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sessionId])
+  @@map("chats")
+}
+
+model Product {
+  id             String   @id @default(cuid())
+  title          String
+  brand          String
+  category       String   // laptop, phone, tv, headphones, tablet, etc.
+  price          Float
+  originalPrice  Float?
+  discount       Int?     // percentage
+  rating         Float    @default(0)
+  reviewCount    Int      @default(0)
+  description    String   @db.Text
+  image          String?
+  specifications Json     // { processor, ram, storage, display, battery, etc. }
+  amazonLink     String?
+  flipkartLink   String?
+  cromaLink      String?
+  vijayLink      String?
+  relianceLink   String?
+  inStock        Boolean  @default(true)
+  tags           String[] // ["gaming", "budget", "premium", "student"]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  wishlist       Wishlist[]
+  recentlyViewed RecentlyViewed[]
+
+  @@map("products")
+}
+
+model SearchHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  query     String
+  category  String?
+  budget    Float?
+  results   Json?    // Store result product IDs
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("search_history")
+}
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("wishlist")
+}
+
+model RecentlyViewed {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  viewedAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("recently_viewed")
+}
+
+model ChatSession {
+  id        String   @id @default(cuid())
+  userId    String?
+  title     String   @default("New Shopping Chat")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user           User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages       ChatMessage[]
+  recentProducts RecentProduct[]
+
+  @@index([userId])
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  sessionId String
+  role      String   // 'user' | 'assistant'
+  message   String   @db.Text
+  agentType String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("chat_messages")
+}
+
+model UserPreference {
+  id               String   @id @default(cuid())
+  userId           String?  @unique
+  sessionId        String?  @unique // So even guest sessions can persist preferences!
+  budget           Float?
+  favoriteBrand    String?
+  profession       String?
+  preferredRam     String?
+  preferredStorage String?
+  category         String?
+  updatedAt        DateTime @updatedAt
+
+  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sessionId])
+  @@map("user_preferences")
+}
+
+model ProductCache {
+  id          String   @id @default(cuid())
+  productName String   @unique
+  price       Float
+  rating      Float    @default(0)
+  store       String   @default("Amazon India")
+  image       String?
+  url         String?
+  category    String?
+  specs       Json?
+  lastUpdated DateTime @default(now()) @updatedAt
+
+  @@index([productName, category])
+  @@map("products_cache")
+}
+
+model RecentProduct {
+  id        String   @id @default(cuid())
+  sessionId String
+  productId String
+  createdAt DateTime @default(now())
+
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("recent_products")
+}

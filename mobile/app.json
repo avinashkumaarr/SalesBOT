@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "ShopBot AI",
+    "slug": "shopbot-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "shopbot",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.shopbot.ai",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "ShopBot AI uses the microphone for voice search."
+      }
+    },
+    "android": {
+      "package": "com.shopbot.ai",
+      "permissions": [
+        "RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store",
+      "expo-status-bar"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
