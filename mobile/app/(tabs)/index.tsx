@@ -268,11 +268,12 @@ export default function ChatbotScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+    >
+      <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
         {/* Header */}
       <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
         <View className="flex-row items-center gap-2.5">
@@ -403,6 +404,7 @@ export default function ChatbotScreen() {
         </ScrollView>
       ) : (
         <FlatList
+          className="flex-1"
           ref={listRef}
           data={messages}
           keyExtractor={(item) => item.id}
@@ -435,7 +437,6 @@ export default function ChatbotScreen() {
         onCancel={handleCancel}
         initialText={editingText}
       />
-      </KeyboardAvoidingView>
 
       {/* Sidebar Drawer Modal */}
       <SidebarDrawer
@@ -479,6 +480,7 @@ export default function ChatbotScreen() {
           Alert.alert('Logged Out', 'You have been logged out.');
         }}
       />
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
