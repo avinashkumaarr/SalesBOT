@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import AuthModal from './AuthModal';
+import ProfileModal from './ProfileModal';
 import { API_BASE } from '../utils/apiConfig';
 
 export default function Navbar({ currentPath }) {
@@ -8,6 +9,7 @@ export default function Navbar({ currentPath }) {
   const [activeTab, setActiveTab] = useState('Home');
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -182,19 +184,18 @@ export default function Navbar({ currentPath }) {
         {/* 8. Auth / Profile Pill */}
         <div className="w-px h-5 bg-stroke mx-2" />
         {user ? (
-          <div className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 backdrop-blur-md rounded-full px-3 py-1 sm:py-1.5 transition-all">
-            <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
-              <span className="text-black text-[10px] font-bold">{user.name?.[0]?.toUpperCase() || 'U'}</span>
+          <button
+            onClick={() => setShowProfileModal(true)}
+            className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/15 backdrop-blur-md rounded-full px-3.5 py-1 sm:py-1.5 transition-all cursor-pointer group/profile shadow-sm"
+            title="Click to view profile details & logout"
+          >
+            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 p-[1px] flex items-center justify-center shadow-sm group-hover/profile:scale-105 transition-transform">
+              <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center">
+                <span className="text-white text-[10px] font-bold">{user.name?.[0]?.toUpperCase() || 'U'}</span>
+              </div>
             </div>
-            <span className="text-text-primary text-xs font-medium max-w-[70px] sm:max-w-[100px] truncate">{user.name?.split(' ')[0]}</span>
-            <button
-              onClick={handleLogout}
-              className="text-muted hover:text-red-400 text-[11px] ml-0.5 transition-colors cursor-pointer"
-              title="Logout"
-            >
-              ✕
-            </button>
-          </div>
+            <span className="text-text-primary text-xs sm:text-sm font-medium max-w-[90px] sm:max-w-[130px] truncate">{user.name?.split(' ')[0]}</span>
+          </button>
         ) : (
           <button
             onClick={() => setShowAuthModal(true)}
@@ -214,6 +215,13 @@ export default function Navbar({ currentPath }) {
               setUser(u);
               setShowAuthModal(false);
             }}
+          />
+        )}
+        {showProfileModal && (
+          <ProfileModal
+            user={user}
+            onClose={() => setShowProfileModal(false)}
+            onLogout={handleLogout}
           />
         )}
       </AnimatePresence>

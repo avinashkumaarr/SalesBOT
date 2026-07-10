@@ -445,43 +445,6 @@ export default function ChatbotPage() {
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-bg to-transparent z-20" />
       </div>
 
-      {/* User Badge (top-right) */}
-      {user && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-16 sm:top-20 right-3 sm:right-6 z-30 flex items-center gap-2"
-        >
-          <div className="flex items-center gap-2 bg-zinc-900/80 border border-zinc-700/50 backdrop-blur-md rounded-2xl px-2.5 sm:px-3 py-1.5">
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center">
-              <span className="text-black text-[9px] sm:text-[10px] font-bold">{user.name?.[0]?.toUpperCase()}</span>
-            </div>
-            <span className="text-zinc-300 text-[11px] sm:text-xs font-medium max-w-[80px] sm:max-w-none truncate">{user.name}</span>
-            <button
-              onClick={handleLogout}
-              className="text-zinc-500 hover:text-red-400 text-[10px] ml-1 transition-colors cursor-pointer"
-            >
-              Logout
-            </button>
-          </div>
-        </motion.div>
-      )}
-
-      {!user && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-16 sm:top-20 right-3 sm:right-6 z-30"
-        >
-          <button
-            onClick={() => setShowAuthModal(true)}
-            className="flex items-center gap-1.5 sm:gap-2 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl px-2.5 sm:px-3 py-1.5 text-white text-[11px] sm:text-xs font-medium hover:bg-white/20 transition-colors cursor-pointer"
-          >
-            🔒 Sign In
-          </button>
-        </motion.div>
-      )}
-
       {/* Main Container */}
       <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-6 sm:pb-8 relative min-h-0">
 
