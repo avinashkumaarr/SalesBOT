@@ -10,7 +10,8 @@ const { aggregateAndAlign } = require('../services/comparisonEngine');
  * Regex Fallback: Detect user intent from message if JSON parsing fails
  */
 const detectIntent = (message) => {
-  const lower = (message || '').toLowerCase();
+  const lower = (message || '').toLowerCase().trim();
+  if (lower.match(/^(hi|hello|hey|hola|namaste|good morning|good afternoon|good evening|how are you|who are you|what can you do|help|thanks|thank you|ok|okay|bye|sup)$/)) return 'GREETING';
   if (lower.match(/history|month|last \d|graph|trend|keepa|lowest price ever/)) return 'HISTORY';
   if (lower.match(/wait|now|buy advice|should i buy|time to buy|price drop/)) return 'ADVICE';
   if (lower.match(/alternative|better|within ₹|more|stretch|upgrade|instead/)) return 'ALTERNATIVES';
@@ -228,6 +229,36 @@ const masterAgent = async (userMessage, conversationHistory = [], userId = null,
     }
   } catch (e) {
     console.warn('⚠️ [UserPreferences] Could not save preferences:', e.message.split('\n')[0]);
+  }
+
+  // ── Handle Casual Greetings & Conversational Queries without Product Search ──
+  const lowerMsg = (userMessage || '').trim().toLowerCase();
+  const isGreetingOrCasual = extracted.intent === 'GREETING' ||
+                             detectIntent(userMessage) === 'GREETING' ||
+                             (lowerMsg.split(/\s+/).length <= 3 && !lowerMsg.match(/phone|mobile|laptop|tv|watch|earbud|headphone|tablet|camera|buy|show|under|budget|₹|\d+k|deal|compare|price|review/i));
+
+  if (isGreetingOrCasual) {
+    console.log('👋 [Step 2: Greeting Detected] Skipping product search & cards for casual greeting/conversation.');
+    const greetingPrompt = `${AGENT_PROMPTS.MASTER || ''}
+
+The user just said: "${userMessage}".
+You are ShopBot AI, an elite, luxury personal AI shopping assistant.
+Reply with a warm, conversational, and helpful response (2-3 sentences max).
+If they greeted you, introduce yourself briefly as ShopBot AI and ask what product (laptops, smartphones, TVs, audio gear, etc.) or budget they would like you to find today.
+IMPORTANT: Do NOT include any product cards, specifications, comparison tables, or store links. Only respond conversationally and invite them to tell you what they want to buy.`;
+
+    const finalAiResponse = await generateContent(greetingPrompt, userMessage, (conversationHistory || []).slice(-5).map(m => ({
+      role: (m.role === 'assistant' || m.role === 'ai' || m.role === 'model') ? 'model' : 'user',
+      parts: [{ text: m.content || m.text || '' }],
+    })));
+
+    return {
+      response: finalAiResponse || "Hello! 👋 I'm ShopBot AI, your personal shopping assistant. Whether you're looking for laptops, smartphones, smart TVs, or audio gear, I can find you the lowest prices across Amazon, Flipkart, and Croma. What are you shopping for today?",
+      intent: 'GREETING',
+      products: [],
+      category: 'General',
+      budget: null,
+    };
   }
 
   // ── 2️⃣ Step 2: SerpAPI — Product Search ──────────────────────────────────

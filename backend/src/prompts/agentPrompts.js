@@ -325,12 +325,17 @@ Extract the following fields:
 - "coding": Boolean (true if user mentions CSE, programming, coding, Android Studio, VS Code, developer)
 - "brand": String or null (if user specifies a brand like Apple, HP, ASUS, Samsung, OnePlus, Sony)
 - "searchQuery": String (a clean 3-6 word Google Shopping search query, e.g., "coding laptop under 40000", "best 5g smartphone under 25000", "anc headphones under 15000")
-- "intent": String (One of: "RECOMMEND", "COMPARE", "PRICE", "HISTORY", "ADVICE", "ALTERNATIVES", "DEALS", "PERSONALIZED", "REVIEW", "SEARCH")
+- "intent": String (One of: "GREETING", "RECOMMEND", "COMPARE", "PRICE", "HISTORY", "ADVICE", "ALTERNATIVES", "DEALS", "PERSONALIZED", "REVIEW", "SEARCH")
 
-Example Input:
+Example Input 1:
 "Show me the price history of ASUS Vivobook and should I buy now or wait?"
-Example Output:
-{"category":"Laptop","budget":null,"purpose":"General Use","battery":false,"gaming":false,"coding":false,"brand":"ASUS","searchQuery":"ASUS Vivobook","intent":"HISTORY"}`,
+Example Output 1:
+{"category":"Laptop","budget":null,"purpose":"General Use","battery":false,"gaming":false,"coding":false,"brand":"ASUS","searchQuery":"ASUS Vivobook","intent":"HISTORY"}
+
+Example Input 2:
+"Hi hello there"
+Example Output 2:
+{"category":"General","budget":null,"purpose":null,"battery":false,"gaming":false,"coding":false,"brand":null,"searchQuery":"","intent":"GREETING"}`,
 
   RANK_AND_EXPLAIN_PROMPT: `${SHOPPING_SYSTEM_PROMPT}
 
