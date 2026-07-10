@@ -464,7 +464,7 @@ export default function ChatbotPage() {
       </div>
 
       {/* Main Container */}
-      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-8 sm:pb-8 relative min-h-0">
+      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-44 sm:pb-8 relative min-h-0">
 
         <AnimatePresence mode="popLayout">
           {!isChatStarted ? (
@@ -499,8 +499,8 @@ export default function ChatbotPage() {
                 Experience next-gen AI shopping. We compare prices across Flipkart, Amazon, Croma, Reliance Digital & Vijay Sales in real-time with AI-driven scoring & hardware spec analysis.
               </p>
 
-              {/* Centered Search Input Box on all viewports */}
-              <div className="flex w-full justify-center">
+              {/* Centered Search Input Box on Desktop only */}
+              <div className="hidden sm:flex w-full justify-center">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
 
@@ -788,17 +788,30 @@ export default function ChatbotPage() {
                 <div ref={chatEndRef} />
               </div>
 
-              {/* Bottom Sticky Search Input inside Chat Card */}
-              <div className="flex w-full border-t border-zinc-800/40 pt-3 sm:pt-4 justify-center mt-auto">
+              {/* Bottom Sticky Search Input on Desktop only */}
+              <div className="hidden sm:flex w-full border-t border-zinc-800/40 pt-3 sm:pt-4 justify-center mt-auto">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Fixed Bottom Prompt Section for Mobile Viewports (< sm) */}
+        <div
+          className="sm:hidden fixed left-0 right-0 z-50 bg-[#09090b]/98 border-t border-zinc-800/90 px-3 pt-2.5 pb-1 backdrop-blur-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-150"
+          style={{ bottom: `${keyboardOffset}px` }}
+        >
+          <ChatSearchInput onSend={handleSend} credits={credits} placeholder="Ask ShopBot AI anything..." />
+          {!keyboardOffset && (
+            <div className="w-full py-1 text-center text-[9px] text-zinc-600 tracking-wider uppercase font-body truncate px-1">
+              © 2026 ShopBot AI · Powered by Gemini 2-Pass, SerpAPI & ScrapingDog Multi-Store Engine
+            </div>
+          )}
+        </div>
       </main>
 
-      {/* Footer on all viewports */}
-      <footer className="w-full z-10 py-4 sm:py-5 text-center text-[9px] sm:text-[10px] text-zinc-600 tracking-wider uppercase font-body border-t border-zinc-900 bg-black/40 px-2">
+      {/* Footer on Desktop only */}
+      <footer className="hidden sm:block w-full z-10 py-5 text-center text-[10px] text-zinc-600 tracking-wider uppercase font-body border-t border-zinc-900 bg-black/40">
         © 2026 ShopBot AI · Powered by Gemini 2-Pass, SerpAPI & ScrapingDog Multi-Store Engine
       </footer>
     </div>

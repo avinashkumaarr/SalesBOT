@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Hls from 'hls.js';
+import ChatSearchInput from './ChatSearchInput';
 
 const ROLES = ["Amazon & Flipkart", "Croma & Reliance", "Price Drop Alert", "AI Score 9.8/10"];
 const VIDEO_URL = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
@@ -9,6 +10,13 @@ export default function Hero() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [roleIndex, setRoleIndex] = useState(0);
+
+  const handleLaunchShopBot = (prompt) => {
+    if (prompt) localStorage.setItem('shopbot_initial_prompt', prompt);
+    window.history.pushState({}, '', '/chatbot');
+    window.dispatchEvent(new Event('navigate'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // 1. Roles Cycling (every 2s)
   useEffect(() => {
@@ -147,11 +155,19 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="flex flex-col items-center gap-2 absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+      {/* Scroll Indicator (Desktop only) */}
+      <div className="hidden sm:flex flex-col items-center gap-2 absolute bottom-8 left-1/2 -translate-x-1/2 pointer-events-none z-10">
         <span className="text-[9px] text-muted uppercase tracking-[0.25em] font-body">Scroll</span>
         <div className="w-[1px] h-10 bg-stroke/60 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-4 accent-gradient animate-scroll-down" />
+        </div>
+      </div>
+
+      {/* Fixed Bottom Prompt Section for Mobile Viewports (< sm) */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#09090b]/98 border-t border-zinc-800/90 px-3 pt-2 pb-1 backdrop-blur-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] flex flex-col items-center">
+        <ChatSearchInput onSend={handleLaunchShopBot} placeholder="Ask ShopBot AI anything..." />
+        <div className="w-full py-1 text-center text-[9px] text-zinc-600 tracking-wider uppercase font-body truncate px-1">
+          © 2026 ShopBot AI · Powered by Gemini 2-Pass, SerpAPI & ScrapingDog Multi-Store Engine
         </div>
       </div>
     </section>

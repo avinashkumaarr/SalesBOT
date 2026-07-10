@@ -10,7 +10,7 @@ const PRESET_PROMPTS = [
   "What are the top discounts on smartphones today?",
 ];
 
-export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450 }) {
+export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450, placeholder = "Ask ShopBot AI anything..." }) {
   const [input, setInput] = useState('');
   const [showPrompts, setShowPrompts] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -197,7 +197,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
             value={input}
             onChange={(e) => setInput(e.target.value.slice(0, 3000))}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything..."
+            placeholder={placeholder}
             className="w-full p-3 sm:p-6 pb-1.5 sm:pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-sm sm:text-lg font-body leading-relaxed max-h-[160px]"
           />
 
