@@ -798,15 +798,20 @@ export default function ChatbotPage() {
 
         {/* Fixed Bottom Prompt Section for Mobile Viewports (< sm) */}
         <div
-          className="sm:hidden fixed left-0 right-0 z-50 bg-[#09090b]/98 border-t border-zinc-800/90 px-3 py-2.5 backdrop-blur-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] flex justify-center transition-all duration-150"
+          className="sm:hidden fixed left-0 right-0 z-50 bg-[#09090b]/98 border-t border-zinc-800/90 px-3 pt-2.5 pb-1 backdrop-blur-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] flex flex-col items-center transition-all duration-150"
           style={{ bottom: `${keyboardOffset}px` }}
         >
           <ChatSearchInput onSend={handleSend} credits={credits} />
+          {!keyboardOffset && (
+            <div className="w-full py-1 text-center text-[9px] text-zinc-600 tracking-wider uppercase font-body truncate px-1">
+              © 2026 ShopBot AI · Powered by Gemini 2-Pass, SerpAPI & ScrapingDog Multi-Store Engine
+            </div>
+          )}
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full z-10 py-5 text-center text-[10px] text-zinc-600 tracking-wider uppercase font-body border-t border-zinc-900 bg-black/40">
+      {/* Footer on Desktop only */}
+      <footer className="hidden sm:block w-full z-10 py-5 text-center text-[10px] text-zinc-600 tracking-wider uppercase font-body border-t border-zinc-900 bg-black/40">
         © 2026 ShopBot AI · Powered by Gemini 2-Pass, SerpAPI & ScrapingDog Multi-Store Engine
       </footer>
     </div>
