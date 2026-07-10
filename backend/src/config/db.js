@@ -6,9 +6,20 @@ if (process.env.NODE_ENV === 'production' || process.env.RENDER || process.env.V
   }
 }
 
-const prisma = new PrismaClient({
+const prismaOptions = {
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+};
+
+// Explicitly override datasource URL if present in environment variables
+if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')) {
+  prismaOptions.datasources = {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  };
+}
+
+const prisma = new PrismaClient(prismaOptions);
 
 // Handle graceful shutdown
 process.on('beforeExit', async () => {
