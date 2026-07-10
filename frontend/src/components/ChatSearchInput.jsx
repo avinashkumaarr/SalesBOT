@@ -190,7 +190,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
       <div className="w-full bg-white rounded-2xl sm:rounded-3xl border border-zinc-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] flex flex-col relative overflow-hidden">
         
         {/* Input Textarea Area */}
-        <div className="relative flex-1 flex pr-13 sm:pr-16 min-h-[95px] sm:min-h-[120px]">
+        <div className="relative flex-1 flex pr-12 sm:pr-16 min-h-[55px] sm:min-h-[120px]">
           <textarea
             ref={textareaRef}
             rows={1}
@@ -198,14 +198,14 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
             onChange={(e) => setInput(e.target.value.slice(0, 3000))}
             onKeyDown={handleKeyDown}
             placeholder="Ask anything..."
-            className="w-full p-4 sm:p-6 pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-sm sm:text-lg font-body leading-relaxed max-h-[160px]"
+            className="w-full p-3 sm:p-6 pb-1.5 sm:pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-sm sm:text-lg font-body leading-relaxed max-h-[160px]"
           />
 
           {/* Send Button */}
           <button
             onClick={handleSend}
             disabled={!input.trim() && !attachedFile}
-            className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 ${
+            className={`absolute top-2 right-2 sm:top-5 sm:right-5 w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 ${
               input.trim() || attachedFile
                 ? 'bg-black text-white hover:scale-105 hover:shadow-lg shadow-black/20'
                 : 'bg-zinc-100 text-zinc-300 cursor-not-allowed'
@@ -227,7 +227,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
         )}
 
         {/* 3. Bottom Toolbar */}
-        <div className="border-t border-zinc-100 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between text-zinc-500 relative">
+        <div className="border-t border-zinc-100 px-3 sm:px-6 py-1.5 sm:py-4 flex items-center justify-between text-zinc-500 relative">
           
           {/* Action buttons (Left) */}
           <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">

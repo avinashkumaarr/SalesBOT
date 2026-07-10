@@ -69,6 +69,24 @@ export default function ChatbotPage() {
   const [editingIdx, setEditingIdx] = useState(null);
   const [editText, setEditText] = useState("");
   const [selectedCompareProduct, setSelectedCompareProduct] = useState(null);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+
+  // ── Mobile Visual Viewport Keyboard Tracking ──────────────────────────────
+  useEffect(() => {
+    if (!window.visualViewport) return;
+    const handleViewportResize = () => {
+      if (window.visualViewport) {
+        const offset = window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop;
+        setKeyboardOffset(offset > 10 ? Math.round(offset) : 0);
+      }
+    };
+    window.visualViewport.addEventListener('resize', handleViewportResize);
+    window.visualViewport.addEventListener('scroll', handleViewportResize);
+    return () => {
+      window.visualViewport?.removeEventListener('resize', handleViewportResize);
+      window.visualViewport?.removeEventListener('scroll', handleViewportResize);
+    };
+  }, []);
 
   const abortControllerRef = useRef(null);
   const videoRef = useRef(null);
@@ -446,7 +464,7 @@ export default function ChatbotPage() {
       </div>
 
       {/* Main Container */}
-      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-6 sm:pb-8 relative min-h-0">
+      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-44 sm:pb-8 relative min-h-0">
 
         <AnimatePresence mode="popLayout">
           {!isChatStarted ? (
@@ -481,8 +499,8 @@ export default function ChatbotPage() {
                 Experience next-gen AI shopping. We compare prices across Flipkart, Amazon, Croma, Reliance Digital & Vijay Sales in real-time with AI-driven scoring & hardware spec analysis.
               </p>
 
-              {/* Centered Search Input Box */}
-              <div className="w-full flex justify-center">
+              {/* Centered Search Input Box on Desktop only */}
+              <div className="hidden sm:flex w-full justify-center">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
 
@@ -770,13 +788,21 @@ export default function ChatbotPage() {
                 <div ref={chatEndRef} />
               </div>
 
-              {/* Bottom Sticky Search Input */}
-              <div className="w-full border-t border-zinc-800/40 pt-3 sm:pt-4 flex justify-center mt-auto">
+              {/* Bottom Sticky Search Input on Desktop only */}
+              <div className="hidden sm:flex w-full border-t border-zinc-800/40 pt-3 sm:pt-4 justify-center mt-auto">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Fixed Bottom Prompt Section for Mobile Viewports (< sm) */}
+        <div
+          className="sm:hidden fixed left-0 right-0 z-50 bg-[#09090b]/98 border-t border-zinc-800/90 px-3 py-2.5 backdrop-blur-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.8)] flex justify-center transition-all duration-150"
+          style={{ bottom: `${keyboardOffset}px` }}
+        >
+          <ChatSearchInput onSend={handleSend} credits={credits} />
+        </div>
       </main>
 
       {/* Footer */}
