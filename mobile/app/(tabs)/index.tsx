@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView, KeyboardAvoidingView, Platform
+  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView, KeyboardAvoidingView, Platform, Keyboard
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -45,9 +45,27 @@ export default function ChatbotScreen() {
   const [roleIdx, setRoleIdx] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [editingText, setEditingText] = useState('');
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const cancelRef = useRef(false);
   const listRef = useRef<FlatList>(null);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+    const showSub = Keyboard.addListener(showEvent, (e) => {
+      setKeyboardOffset(e.endCoordinates.height);
+    });
+    const hideSub = Keyboard.addListener(hideEvent, () => {
+      setKeyboardOffset(0);
+    });
+
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   // Load user
   useEffect(() => {
@@ -268,12 +286,7 @@ export default function ChatbotScreen() {
   );
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
-    >
-      <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
         {/* Header */}
       <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
         <View className="flex-row items-center gap-2.5">
@@ -430,13 +443,15 @@ export default function ChatbotScreen() {
         />
       )}
 
-      {/* Chat Input */}
-      <ChatInput
-        onSend={handleSend}
-        isLoading={isLoading}
-        onCancel={handleCancel}
-        initialText={editingText}
-      />
+      {/* Chat Input with explicit Keyboard Elevation */}
+      <View style={{ paddingBottom: keyboardOffset }}>
+        <ChatInput
+          onSend={handleSend}
+          isLoading={isLoading}
+          onCancel={handleCancel}
+          initialText={editingText}
+        />
+      </View>
 
       {/* Sidebar Drawer Modal */}
       <SidebarDrawer
@@ -480,7 +495,6 @@ export default function ChatbotScreen() {
           Alert.alert('Logged Out', 'You have been logged out.');
         }}
       />
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
