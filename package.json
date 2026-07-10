@@ -1,9 +1,10 @@
 {
   "name": "salesbot-root",
   "version": "1.0.0",
-  "description": "Root package.json wrapper to prevent Render deploy errors when Root Directory is not set to backend",
+  "description": "Root package.json wrapper for Render deployment",
   "private": true,
   "scripts": {
+    "postinstall": "cd backend && npm install && npx prisma generate && npx prisma db push",
     "build": "cd backend && npm install && npx prisma generate && npx prisma db push",
     "start": "cd backend && node src/server.js"
   }
