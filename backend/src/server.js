@@ -51,7 +51,16 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customSiteTitle: 'AI Shopping Sales Bot API',
 }));
 
-// Health Check
+// Root & Health Checks
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'SalesBOT AI Backend is running successfully!',
+    docs: '/api-docs',
+    health: '/health',
+  });
+});
+
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
