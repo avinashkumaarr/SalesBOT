@@ -7,15 +7,17 @@ import { getAccessToken } from './storage';
 // 1. Check if Expo Metro bundler provided a host IP during local development
 // 2. Fallback to the live production Render HTTPS server for standalone APKs and physical devices
 export const getBackendHost = () => {
-  const metroHost =
-    Constants.expoConfig?.hostUri?.split(':')[0] ||
-    (Constants as any).manifest?.debuggerHost?.split(':')[0] ||
-    (Constants as any).manifest2?.extra?.expoGo?.debuggerHost?.split(':')[0];
+  if (__DEV__) {
+    const metroHost =
+      Constants.expoConfig?.hostUri?.split(':')[0] ||
+      (Constants as any).manifest?.debuggerHost?.split(':')[0] ||
+      (Constants as any).manifest2?.extra?.expoGo?.debuggerHost?.split(':')[0];
 
-  if (metroHost) {
-    return `http://${metroHost}:3001/api`;
+    if (metroHost) {
+      return `http://${metroHost}:3001/api`;
+    }
   }
-  // Standalone APK (app-debug.apk / production): ALWAYS connect to exact live production Render backend over HTTPS
+  // Standalone APK (Release build / production): ALWAYS connect to exact live production Render backend over HTTPS
   return 'https://salesbot-fqjx.onrender.com/api';
 };
 
