@@ -84,10 +84,10 @@ export default function ChatInput({ onSend, isLoading, onCancel, initialText }: 
               returnKeyType="send"
               onSubmitEditing={handleSend}
               blurOnSubmit={false}
-              className="flex-1 text-white text-base pr-3"
+              className="flex-1 text-zinc-900 text-base pr-3"
               style={{
                 fontFamily: 'Inter_400Regular',
-                color: '#fafafa',
+                color: '#18181b',
                 fontSize: 16,
                 lineHeight: 22,
                 paddingVertical: Platform.OS === 'android' ? 2 : 0,
