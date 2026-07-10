@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { View, LogBox } from 'react-native';
 import {
   useFonts,
   Inter_400Regular,
@@ -15,6 +15,9 @@ import {
 } from '@expo-google-fonts/instrument-serif';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '../global.css';
+
+// Prevent React Native debug LogBox modals (like Task.kt promise errors) from blocking the screen
+LogBox.ignoreAllLogs(true);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({

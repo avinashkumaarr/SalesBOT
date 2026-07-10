@@ -69,7 +69,7 @@ export default function PlansScreen() {
   const router = useRouter();
 
   useEffect(() => {
-    getUser().then(setUser);
+    getUser().then(setUser).catch(() => {});
   }, []);
 
   const handlePlanPress = (plan: typeof PLANS[0]) => {

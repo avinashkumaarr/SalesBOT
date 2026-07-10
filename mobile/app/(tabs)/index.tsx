@@ -51,7 +51,7 @@ export default function ChatbotScreen() {
 
   // Load user
   useEffect(() => {
-    getUser().then(setUser);
+    getUser().then(setUser).catch(() => {});
   }, []);
 
   // Cycling roles animation (every 2s)

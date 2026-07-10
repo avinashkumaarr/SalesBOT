@@ -4,9 +4,8 @@ import Constants from 'expo-constants';
 import { getAccessToken } from './storage';
 
 // Dynamically resolve the backend host:
-// 1. Check if Expo Metro bundler provided a host IP (e.g. "192.168.201.106:8081" -> "192.168.201.106")
-// 2. Fallback to the current LAN IP (192.168.201.106) for physical devices over Wi-Fi
-// 3. Fallback to localhost for iOS simulator
+// 1. Check if Expo Metro bundler provided a host IP during local development
+// 2. Fallback to the live production Render HTTPS server for standalone APKs and physical devices
 export const getBackendHost = () => {
   const metroHost =
     Constants.expoConfig?.hostUri?.split(':')[0] ||
@@ -14,16 +13,13 @@ export const getBackendHost = () => {
     (Constants as any).manifest2?.extra?.expoGo?.debuggerHost?.split(':')[0];
 
   if (metroHost) {
-    return metroHost;
+    return `http://${metroHost}:3001/api`;
   }
-  if (Platform.OS === 'android') {
-    // 192.168.201.106 is the LAN IP for physical Android devices over Wi-Fi
-    return '192.168.201.106';
-  }
-  return 'localhost';
+  // Standalone APK (app-debug.apk / production): ALWAYS connect to exact live production Render backend over HTTPS
+  return 'https://salesbot-fqjx.onrender.com/api';
 };
 
-export const BASE_URL = `http://${getBackendHost()}:3001/api`;
+export const BASE_URL = getBackendHost();
 
 const api = axios.create({
   baseURL: BASE_URL,

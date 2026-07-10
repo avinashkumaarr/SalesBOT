@@ -141,7 +141,7 @@ export default function HomeScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    getUser().then(setUser);
+    getUser().then(setUser).catch(() => {});
   }, []);
 
   useEffect(() => {
