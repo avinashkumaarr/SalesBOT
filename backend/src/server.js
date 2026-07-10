@@ -81,6 +81,22 @@ app.use('/api', userRoutes); // /api/wishlist, /api/history
 app.use(notFound);
 app.use(errorHandler);
 
+// Automatically sync Prisma database schema on startup for cloud environments (Render/Vercel)
+if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')) {
+  try {
+    const { execSync } = require('child_process');
+    console.log('🔄 Verifying and syncing database schema with cloud PostgreSQL...');
+    execSync('npx prisma db push --accept-data-loss', {
+      cwd: path.resolve(__dirname, '..'),
+      env: process.env,
+      stdio: 'inherit'
+    });
+    console.log('✅ Database tables verified and pushed successfully!');
+  } catch (err) {
+    console.error('⚠️ Could not auto-sync database schema on startup:', err.message);
+  }
+}
+
 app.listen(PORT, () => {
   console.log('');
   console.log('╔══════════════════════════════════════════════════════════╗');
