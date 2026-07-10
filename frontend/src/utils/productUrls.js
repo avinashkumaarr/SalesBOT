@@ -6,7 +6,7 @@
  * and direct redirect ("I'm Feeling Lucky" btnI=1) as fallback.
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
+import { API_BASE } from './apiConfig';
 
 /**
  * Helper: Check if a URL string is a direct item/product page (not a generic search or homepage URL)

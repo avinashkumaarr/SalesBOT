@@ -6,168 +6,11 @@ import ProductCard from './ProductCard';
 import ProductComparison from './ProductComparison';
 import ReactMarkdown from 'react-markdown';
 
+import AuthModal from './AuthModal';
+import { API_BASE } from '../utils/apiConfig';
+
 const ROLES = ["Advisor", "Price Tracker", "Spec Analyst", "Deal Finder"];
 const VIDEO_URL = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api";
-
-// ─── Auth Modal ──────────────────────────────────────────────────────────────
-function AuthModal({ onAuth, onClose }) {
-  const [mode, setMode] = useState('login'); // 'login' | 'register'
-  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '' });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
-      const body = mode === 'login'
-        ? { email: form.email.trim(), password: form.password }
-        : {
-            name: form.name.trim(),
-            email: form.email.trim(),
-            password: form.password,
-            // Only include phone if actually entered
-            ...(form.phone && form.phone.trim() ? { phone: form.phone.trim() } : {}),
-          };
-
-      const res = await fetch(`${API_BASE}${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        // Handle Zod validation errors (array of field errors)
-        if (data.errors && Array.isArray(data.errors)) {
-          throw new Error(data.errors.map(e => `${e.field}: ${e.message}`).join(' | '));
-        }
-        throw new Error(data.message || 'Authentication failed');
-      }
-
-      localStorage.setItem('tc_access_token', data.accessToken);
-      localStorage.setItem('tc_refresh_token', data.refreshToken);
-      localStorage.setItem('tc_user', JSON.stringify(data.user));
-      onAuth(data.user, data.accessToken);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
-    >
-      <motion.div
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 w-full max-w-md shadow-2xl relative"
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer z-10 text-sm"
-        >
-          ✕
-        </button>
-
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto mb-3">
-            <span className="text-xl font-bold text-black">SB</span>
-          </div>
-          <h2 className="text-xl font-bold text-white">SalesBOT</h2>
-          <p className="text-zinc-400 text-sm mt-1">
-            {mode === 'login' ? 'Sign in to save your wishlist & price alerts' : 'Create your account to get started'}
-          </p>
-        </div>
-
-        {/* Toggle */}
-        <div className="flex bg-zinc-800 rounded-2xl p-1 mb-6">
-          {['login', 'register'].map((m) => (
-            <button
-              key={m}
-              onClick={() => { setMode(m); setError(''); }}
-              className={`flex-1 py-2 rounded-xl text-sm font-semibold capitalize transition-all ${mode === m ? 'bg-white text-black' : 'text-zinc-400 hover:text-white'
-                }`}
-            >
-              {m === 'login' ? 'Sign In' : 'Register'}
-            </button>
-          ))}
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
-            <>
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={form.name}
-                onChange={(e) => setForm(p => ({ ...p, name: e.target.value }))}
-                required
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-zinc-500"
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number (optional)"
-                value={form.phone}
-                onChange={(e) => setForm(p => ({ ...p, phone: e.target.value }))}
-                className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-zinc-500"
-              />
-            </>
-          )}
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={(e) => setForm(p => ({ ...p, email: e.target.value }))}
-            required
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-zinc-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) => setForm(p => ({ ...p, password: e.target.value }))}
-            required
-            className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-zinc-500"
-          />
-
-          {error && (
-            <p className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-white text-black font-semibold py-3 rounded-xl text-sm hover:bg-zinc-100 transition-colors disabled:opacity-50"
-          >
-            {loading ? 'Please wait...' : mode === 'login' ? 'Sign In' : 'Create Account'}
-          </button>
-        </form>
-
-        <button
-          onClick={onClose}
-          className="mt-4 w-full text-zinc-500 text-xs hover:text-zinc-300 transition-colors"
-        >
-          Continue without account (limited features)
-        </button>
-      </motion.div>
-    </motion.div>
-  );
-}
 
 // ─── Loan Status Banner ───────────────────────────────────────────────────────
 function LoanStatusBanner({ stage, onDownloadPDF, applicationId }) {
@@ -232,14 +75,30 @@ export default function ChatbotPage() {
   const chatEndRef = useRef(null);
   const chatContainerRef = useRef(null);
 
-  // ── Load saved auth on mount ──────────────────────────────────────────────
+  // ── Load saved auth on mount & sync across components ─────────────────────
   useEffect(() => {
-    const savedToken = localStorage.getItem('tc_access_token');
-    const savedUser = localStorage.getItem('tc_user');
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
-    }
+    const syncChatAuth = () => {
+      const savedToken = localStorage.getItem('tc_access_token');
+      const savedUser = localStorage.getItem('tc_user');
+      if (savedToken && savedUser) {
+        setToken(savedToken);
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (e) {
+          setUser(null);
+        }
+      } else {
+        setToken(null);
+        setUser(null);
+      }
+    };
+    syncChatAuth();
+    window.addEventListener('storage', syncChatAuth);
+    window.addEventListener('auth_change', syncChatAuth);
+    return () => {
+      window.removeEventListener('storage', syncChatAuth);
+      window.removeEventListener('auth_change', syncChatAuth);
+    };
   }, []);
 
   // ── Roles Cycling (every 2s) ──────────────────────────────────────────────
