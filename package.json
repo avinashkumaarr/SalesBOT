@@ -6,6 +6,6 @@
   "scripts": {
     "postinstall": "cd backend && npm install && npx prisma generate",
     "build": "cd backend && npx prisma generate && npx prisma db push",
-    "start": "cd backend && node src/server.js"
+    "start": "cd backend && npx prisma db push --accept-data-loss && node src/server.js"
   }
 }
