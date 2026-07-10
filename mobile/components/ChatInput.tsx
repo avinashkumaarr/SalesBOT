@@ -33,12 +33,8 @@ export default function ChatInput({ onSend, isLoading, onCancel, initialText }: 
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-    >
-      <View className="px-4 pb-4 pt-2 bg-zinc-950 border-t border-zinc-900/80">
-        {/* Cancel button while loading */}
+    <View className="px-4 pb-4 pt-2 bg-zinc-950 border-t border-zinc-900/80">
+      {/* Cancel button while loading */}
         {isLoading && onCancel && (
           <TouchableOpacity
             onPress={onCancel}
@@ -158,6 +154,6 @@ export default function ChatInput({ onSend, isLoading, onCancel, initialText }: 
           </View>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }

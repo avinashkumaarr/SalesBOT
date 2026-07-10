@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView
+  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView,
+  KeyboardAvoidingView, Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -269,8 +270,12 @@ export default function ChatbotScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
-      {/* Header */}
-      <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+        style={{ flex: 1 }}
+      >
+        {/* Header */}
+        <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
         <View className="flex-row items-center gap-2.5">
           <TouchableOpacity
             onPress={() => setIsSidebarOpen(true)}
@@ -429,6 +434,7 @@ export default function ChatbotScreen() {
         onCancel={handleCancel}
         initialText={editingText}
       />
+      </KeyboardAvoidingView>
 
       {/* Sidebar Drawer Modal */}
       <SidebarDrawer

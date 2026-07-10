@@ -197,6 +197,11 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
             value={input}
             onChange={(e) => setInput(e.target.value.slice(0, 3000))}
             onKeyDown={handleKeyDown}
+            onFocus={() => {
+              setTimeout(() => {
+                textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 300);
+            }}
             placeholder="Ask anything..."
             className="w-full p-4 sm:p-6 pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-sm sm:text-lg font-body leading-relaxed max-h-[160px]"
           />
