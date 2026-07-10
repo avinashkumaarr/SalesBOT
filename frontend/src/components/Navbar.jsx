@@ -132,14 +132,16 @@ export default function Navbar({ currentPath }) {
         {/* 1. Nav links */}
         <div className="flex items-center gap-0.5 sm:gap-1">
           {[
-            { name: 'Home', labelMobile: 'Home', target: 'hero' },
-            { name: 'Categories', labelMobile: 'Shop', target: 'work' },
-            { name: 'ShopBot AI', labelMobile: 'AI Chat', target: '/chatbot' }
+            { name: 'Home', labelMobile: 'Home', target: 'hero', hideMobile: false },
+            { name: 'Categories', labelMobile: 'Shop', target: 'work', hideMobile: true },
+            { name: 'ShopBot AI', labelMobile: 'AI Chat', target: '/chatbot', hideMobile: false }
           ].map((tab) => (
             <button
               key={tab.name}
               onClick={() => handleNavClick(tab.name, tab.target)}
-              className={`text-[11px] sm:text-xs md:text-sm rounded-full px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 font-medium cursor-pointer transition-all duration-200 whitespace-nowrap ${
+              className={`text-[11px] sm:text-xs md:text-sm rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 font-medium cursor-pointer transition-all duration-200 whitespace-nowrap ${
+                tab.hideMobile ? 'hidden sm:inline-flex' : 'inline-flex'
+              } ${
                 activeTab === tab.name
                   ? 'text-text-primary bg-stroke/50'
                   : 'text-muted hover:text-text-primary hover:bg-stroke/30'
@@ -161,7 +163,7 @@ export default function Navbar({ currentPath }) {
         >
           {/* Accent gradient behind on hover */}
           <div className="absolute inset-[-2px] accent-gradient opacity-0 group-hover/sayhi:opacity-100 transition-opacity duration-300" />
-          <div className="relative bg-surface/90 backdrop-blur-md text-muted group-hover/sayhi:text-text-primary transition-colors duration-300 rounded-full px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 flex items-center gap-1 text-[11px] sm:text-xs md:text-sm font-medium whitespace-nowrap">
+          <div className="relative bg-surface/90 backdrop-blur-md text-muted group-hover/sayhi:text-text-primary transition-colors duration-300 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 flex items-center gap-1 text-[11px] sm:text-xs md:text-sm font-medium whitespace-nowrap">
             Plans <span className="font-sans text-[9px] sm:text-[10px] md:text-xs">↓</span>
           </div>
         </button>
@@ -187,22 +189,23 @@ export default function Navbar({ currentPath }) {
         {user ? (
           <button
             onClick={() => setShowProfileModal(true)}
-            className="flex items-center gap-1 sm:gap-2 bg-white/5 hover:bg-white/10 border border-white/15 backdrop-blur-md rounded-full px-2 sm:px-3.5 py-0.5 sm:py-1 md:py-1.5 transition-all cursor-pointer group/profile shadow-sm shrink-0"
+            className="flex items-center gap-1 sm:gap-2 bg-white/5 hover:bg-white/10 border border-white/15 backdrop-blur-md rounded-full p-1 sm:px-3.5 sm:py-1 md:py-1.5 transition-all cursor-pointer group/profile shadow-sm shrink-0"
             title="Click to view profile details & logout"
           >
-            <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 p-[1px] flex items-center justify-center shadow-sm group-hover/profile:scale-105 transition-transform shrink-0">
+            <div className="w-6 h-6 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-tr from-emerald-400 to-cyan-400 p-[1px] flex items-center justify-center shadow-sm group-hover/profile:scale-105 transition-transform shrink-0">
               <div className="w-full h-full bg-zinc-900 rounded-full flex items-center justify-center">
-                <span className="text-white text-[9px] sm:text-[10px] font-bold">{user.name?.[0]?.toUpperCase() || 'U'}</span>
+                <span className="text-white text-[10px] sm:text-[10px] font-bold">{user.name?.[0]?.toUpperCase() || 'U'}</span>
               </div>
             </div>
-            <span className="text-text-primary text-[11px] sm:text-xs md:text-sm font-medium max-w-[55px] sm:max-w-[90px] md:max-w-[130px] truncate">{user.name?.split(' ')[0]}</span>
+            <span className="hidden sm:inline text-text-primary text-[11px] sm:text-xs md:text-sm font-medium max-w-[55px] sm:max-w-[90px] md:max-w-[130px] truncate">{user.name?.split(' ')[0]}</span>
           </button>
         ) : (
           <button
             onClick={() => setShowAuthModal(true)}
-            className="flex items-center gap-1 sm:gap-1.5 bg-white text-black font-semibold rounded-full px-2.5 sm:px-3.5 py-1 sm:py-1.5 md:py-2 text-[11px] sm:text-xs md:text-sm hover:bg-zinc-200 transition-colors cursor-pointer shadow-md shrink-0 whitespace-nowrap"
+            className="flex items-center justify-center gap-1 sm:gap-1.5 bg-white text-black font-semibold rounded-full w-7 h-7 sm:w-auto sm:h-auto sm:px-3.5 sm:py-1.5 md:py-2 text-xs sm:text-xs md:text-sm hover:bg-zinc-200 transition-colors cursor-pointer shadow-md shrink-0 whitespace-nowrap"
+            title="Sign In"
           >
-            <span className="sm:hidden">Sign In</span>
+            <span className="sm:hidden text-xs">🔒</span>
             <span className="hidden sm:inline">🔒 Sign In</span>
           </button>
         )}
