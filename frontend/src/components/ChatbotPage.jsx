@@ -771,7 +771,7 @@ export default function ChatbotPage() {
               </div>
 
               {/* Bottom Sticky Search Input */}
-              <div className="w-full sticky bottom-0 z-40 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800/60 pt-3 sm:pt-4 pb-2 sm:pb-4 flex justify-center mt-auto">
+              <div className="w-full border-t border-zinc-800/40 pt-3 sm:pt-4 flex justify-center mt-auto">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
             </motion.div>

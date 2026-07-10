@@ -52,3 +52,5 @@ export const clearAuth = async () => {
   await del(REFRESH_KEY);
   await del(USER_KEY);
 };
+
+export const logout = clearAuth;

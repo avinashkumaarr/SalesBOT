@@ -17,7 +17,8 @@
       "package": "com.salesbot.ai",
       "permissions": [
         "RECORD_AUDIO"
-      ]
+      ],
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "bundler": "metro"

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
-  ActivityIndicator, Platform, KeyboardAvoidingView, Alert
+  ActivityIndicator, Platform, Alert
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -34,7 +34,7 @@ export default function ChatInput({ onSend, isLoading, onCancel, initialText }: 
 
   return (
     <View className="px-4 pb-4 pt-2 bg-zinc-950 border-t border-zinc-900/80">
-      {/* Cancel button while loading */}
+        {/* Cancel button while loading */}
         {isLoading && onCancel && (
           <TouchableOpacity
             onPress={onCancel}
@@ -154,6 +154,5 @@ export default function ChatInput({ onSend, isLoading, onCancel, initialText }: 
           </View>
         </View>
       </View>
-    </View>
   );
 }

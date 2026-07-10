@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
-  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView,
-  KeyboardAvoidingView, Platform
+  View, Text, FlatList, TouchableOpacity, Alert, Animated, Easing, ScrollView, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -271,11 +270,11 @@ export default function ChatbotScreen() {
   return (
     <SafeAreaView className="flex-1 bg-zinc-950" edges={['top']}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
       >
         {/* Header */}
-        <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
+      <View className="flex-row items-center justify-between px-5 pt-2 pb-3 border-b border-zinc-800/80">
         <View className="flex-row items-center gap-2.5">
           <TouchableOpacity
             onPress={() => setIsSidebarOpen(true)}
@@ -325,6 +324,7 @@ export default function ChatbotScreen() {
           className="flex-1"
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', paddingHorizontal: 24, paddingVertical: 28 }}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
           {/* Upper part: Luxury Website Hero */}
           <View className="items-center mt-6">
@@ -409,6 +409,7 @@ export default function ChatbotScreen() {
           renderItem={renderItem}
           contentContainerStyle={{ paddingVertical: 16 }}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
           onContentSizeChange={scrollToBottom}
           onLayout={scrollToBottom}
           ListFooterComponent={
