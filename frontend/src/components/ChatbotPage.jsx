@@ -591,16 +591,16 @@ export default function ChatbotPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-20 right-6 z-30 flex items-center gap-2"
+          className="absolute top-16 sm:top-20 right-3 sm:right-6 z-30 flex items-center gap-2"
         >
-          <div className="flex items-center gap-2 bg-zinc-900/80 border border-zinc-700/50 backdrop-blur-md rounded-2xl px-3 py-1.5">
-            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
-              <span className="text-black text-[10px] font-bold">{user.name?.[0]?.toUpperCase()}</span>
+          <div className="flex items-center gap-2 bg-zinc-900/80 border border-zinc-700/50 backdrop-blur-md rounded-2xl px-2.5 sm:px-3 py-1.5">
+            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white flex items-center justify-center">
+              <span className="text-black text-[9px] sm:text-[10px] font-bold">{user.name?.[0]?.toUpperCase()}</span>
             </div>
-            <span className="text-zinc-300 text-xs font-medium">{user.name}</span>
+            <span className="text-zinc-300 text-[11px] sm:text-xs font-medium max-w-[80px] sm:max-w-none truncate">{user.name}</span>
             <button
               onClick={handleLogout}
-              className="text-zinc-500 hover:text-red-400 text-[10px] ml-1 transition-colors"
+              className="text-zinc-500 hover:text-red-400 text-[10px] ml-1 transition-colors cursor-pointer"
             >
               Logout
             </button>
@@ -612,11 +612,11 @@ export default function ChatbotPage() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-20 right-6 z-30"
+          className="absolute top-16 sm:top-20 right-3 sm:right-6 z-30"
         >
           <button
             onClick={() => setShowAuthModal(true)}
-            className="flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl px-3 py-1.5 text-white text-xs font-medium hover:bg-white/20 transition-colors"
+            className="flex items-center gap-1.5 sm:gap-2 bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl px-2.5 sm:px-3 py-1.5 text-white text-[11px] sm:text-xs font-medium hover:bg-white/20 transition-colors cursor-pointer"
           >
             🔒 Sign In
           </button>
@@ -624,7 +624,7 @@ export default function ChatbotPage() {
       )}
 
       {/* Main Container */}
-      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-6 z-10 pt-28 pb-8 relative min-h-0">
+      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col justify-center items-center px-3 sm:px-6 z-10 pt-20 sm:pt-28 pb-6 sm:pb-8 relative min-h-0">
 
         <AnimatePresence mode="popLayout">
           {!isChatStarted ? (
@@ -637,17 +637,17 @@ export default function ChatbotPage() {
               transition={{ duration: 0.6 }}
               className="flex flex-col items-center text-center w-full"
             >
-              <p className="text-[10px] sm:text-xs text-muted uppercase tracking-[0.3em] mb-6 font-semibold">
+              <p className="text-[9px] sm:text-xs text-muted uppercase tracking-[0.25em] sm:tracking-[0.3em] mb-4 sm:mb-6 font-semibold">
                 SALESBOT · AI SHOPPING ASSISTANT
               </p>
 
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display italic leading-[0.9] tracking-tight text-text-primary mb-6">
+              <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-9xl font-display italic leading-[0.9] tracking-tight text-text-primary mb-4 sm:mb-6">
                 SalesBOT
               </h1>
 
-              <div className="text-lg sm:text-2xl md:text-3xl text-muted font-body mb-6 flex items-center justify-center gap-2">
+              <div className="text-base sm:text-2xl md:text-3xl text-muted font-body mb-4 sm:mb-6 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
                 <span>Your Smart</span>
-                <span className="font-display italic text-text-primary inline-block min-w-[180px] text-left">
+                <span className="font-display italic text-text-primary inline-block min-w-[130px] sm:min-w-[180px] text-center sm:text-left">
                   <span key={roleIndex} className="animate-role-fade-in inline-block">
                     {ROLES[roleIndex]}
                   </span>
@@ -655,7 +655,7 @@ export default function ChatbotPage() {
                 <span>Advisor</span>
               </div>
 
-              <p className="text-sm md:text-base text-muted max-w-md mb-10 font-light leading-relaxed">
+              <p className="text-xs sm:text-sm md:text-base text-muted max-w-md mb-6 sm:mb-10 font-light leading-relaxed px-2">
                 Experience next-gen AI shopping. We compare prices across Flipkart, Amazon, Croma, Reliance Digital & Vijay Sales in real-time with AI-driven scoring & hardware spec analysis.
               </p>
 
@@ -664,43 +664,46 @@ export default function ChatbotPage() {
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
 
-              {/* Quick action chips */}
-              <div className="flex flex-wrap gap-2 justify-center mt-6">
+              {/* Quick action chips - Mobile & Desktop compatible grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 w-full max-w-xl mt-5 sm:mt-6 px-1 sm:px-0">
                 {[
-                  'Best coding laptop under ₹50,000 with good battery',
-                  'Compare iPhone 15 vs Samsung S24 for photography',
-                  'Suggest 4K Smart TVs under ₹40,000 with Dolby Vision',
-                  'Top gaming headphones under ₹5,000',
+                  { icon: '💻', text: 'Best coding laptop under ₹50,000' },
+                  { icon: '📱', text: 'Compare iPhone 15 vs Galaxy S24' },
+                  { icon: '📺', text: '4K Smart TVs under ₹40,000' },
+                  { icon: '🎧', text: 'Top gaming headphones under ₹5,000' },
                 ].map((prompt) => (
                   <button
-                    key={prompt}
-                    onClick={() => handleSend(prompt)}
-                    className="text-xs text-zinc-400 border border-zinc-700/60 hover:border-zinc-500 hover:text-white bg-zinc-900/60 backdrop-blur-sm px-3 py-1.5 rounded-full transition-all"
+                    key={prompt.text}
+                    onClick={() => handleSend(prompt.text)}
+                    className="flex items-center gap-2.5 text-left text-[11px] sm:text-xs text-zinc-300 border border-zinc-800/80 hover:border-zinc-500 hover:text-white bg-zinc-900/70 hover:bg-zinc-800/80 backdrop-blur-md px-3.5 py-2.5 rounded-2xl transition-all shadow-sm group cursor-pointer w-full"
                   >
-                    {prompt}
+                    <span className="text-base sm:text-lg group-hover:scale-110 transition-transform shrink-0">{prompt.icon}</span>
+                    <span className="line-clamp-1 sm:line-clamp-none font-medium truncate sm:whitespace-normal">{prompt.text}</span>
                   </button>
                 ))}
               </div>
 
               {/* Download APK Banner */}
-              <div className="mt-8 flex items-center justify-center">
+              <div className="mt-6 sm:mt-8 flex items-center justify-center w-full max-w-md px-1 sm:px-0">
                 <a
                   href="/SalesBOT.apk"
                   download="SalesBOT.apk"
-                  className="group flex items-center gap-3 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-emerald-500/30 hover:border-emerald-500/80 rounded-2xl px-5 py-3 shadow-lg shadow-emerald-500/10 hover:scale-105 transition-all duration-300"
+                  className="group flex items-center justify-between sm:justify-center gap-2.5 sm:gap-3 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-emerald-500/30 hover:border-emerald-500/80 rounded-2xl px-4 sm:px-5 py-2.5 sm:py-3 shadow-lg shadow-emerald-500/10 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
                   title="Download SalesBOT APK for Android & iOS"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl">
-                    📱
-                  </div>
-                  <div className="text-left">
-                    <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-                      <span>Download SalesBOT App</span>
-                      <span className="bg-emerald-500/20 text-emerald-400 text-[9px] px-1.5 py-0.5 rounded-full uppercase font-mono">v1.0.0</span>
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg sm:text-xl shrink-0">
+                      📱
                     </div>
-                    <div className="text-[10px] text-zinc-400">Android APK & iOS Compatible • Live Multi-Store Pricing</div>
+                    <div className="text-left min-w-0">
+                      <div className="text-[11px] sm:text-xs font-bold text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                        <span className="truncate">Download SalesBOT App</span>
+                        <span className="bg-emerald-500/20 text-emerald-400 text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded-full uppercase font-mono shrink-0">v1.0.0</span>
+                      </div>
+                      <div className="text-[9px] sm:text-[10px] text-zinc-400 truncate">Android APK & iOS Compatible • Live Multi-Store Pricing</div>
+                    </div>
                   </div>
-                  <div className="text-zinc-500 group-hover:text-white transition-colors ml-2 font-bold">
+                  <div className="text-zinc-500 group-hover:text-white transition-colors ml-1 sm:ml-2 font-bold shrink-0">
                     ↓
                   </div>
                 </a>
@@ -713,7 +716,7 @@ export default function ChatbotPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="w-full flex-1 flex flex-col h-[70vh] min-h-0 border border-zinc-800/40 bg-zinc-950/40 backdrop-blur-lg rounded-[2rem] p-6 shadow-2xl"
+              className="w-full flex-1 flex flex-col h-[75vh] sm:h-[70vh] min-h-0 border border-zinc-800/40 bg-zinc-950/40 backdrop-blur-lg rounded-2xl sm:rounded-[2rem] p-3 sm:p-6 shadow-2xl"
             >
               {/* Stage banner */}
               <LoanStatusBanner
@@ -759,26 +762,26 @@ export default function ChatbotPage() {
               </AnimatePresence>
 
               {/* Scrollable Conversation Feed */}
-              <div ref={chatContainerRef} className="flex-1 overflow-y-auto pr-2 flex flex-col gap-6 no-scrollbar pb-6 select-text">
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto pr-1 sm:pr-2 flex flex-col gap-5 sm:gap-6 no-scrollbar pb-6 select-text">
                 {messages.map((msg, idx) => (
                   <div key={idx} className="flex flex-col gap-2 w-full">
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4 }}
-                      className={`flex gap-4 max-w-[85%] ${msg.sender === 'user' ? 'self-end flex-row-reverse' : 'self-start'
+                      className={`flex gap-2.5 sm:gap-4 max-w-[95%] sm:max-w-[85%] ${msg.sender === 'user' ? 'self-end flex-row-reverse' : 'self-start'
                         }`}
                     >
                       {/* Avatar */}
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center border flex-shrink-0 ${msg.sender === 'user'
+                      <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border flex-shrink-0 ${msg.sender === 'user'
                         ? 'bg-zinc-800 border-zinc-700 text-white text-xs font-bold'
-                        : 'bg-zinc-900 border-zinc-800 text-white font-display italic text-base'
+                        : 'bg-zinc-900 border-zinc-800 text-white font-display italic text-sm sm:text-base'
                         }`}>
                         {msg.sender === 'user' ? (user?.name?.[0]?.toUpperCase() || 'G') : 'SB'}
                       </div>
 
                       {/* Message bubble */}
-                      <div className={`group p-5 rounded-3xl text-sm leading-relaxed w-full ${msg.sender === 'user'
+                      <div className={`group p-4 sm:p-5 rounded-2xl sm:rounded-3xl text-sm leading-relaxed w-full min-w-0 break-words ${msg.sender === 'user'
                         ? 'bg-white text-black font-medium rounded-tr-sm shadow-lg'
                         : 'bg-zinc-950/80 text-zinc-200 border border-zinc-800/80 rounded-tl-sm font-light backdrop-blur-xl shadow-2xl'
                         }`}>
@@ -890,10 +893,10 @@ export default function ChatbotPage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="w-full max-w-[95%] self-start sm:pl-13 pr-2 flex flex-col gap-6 mt-2"
+                        className="w-full max-w-full sm:max-w-[95%] self-start pl-0 sm:pl-13 pr-0 sm:pr-2 flex flex-col gap-6 mt-2"
                       >
                         <div className="flex flex-col gap-1 border-b border-zinc-800/80 pb-3 mb-1">
-                          <h3 className="font-display italic text-2xl sm:text-3xl text-white font-normal">
+                          <h3 className="font-display italic text-xl sm:text-3xl text-white font-normal">
                             Curated Selection
                           </h3>
                           <p className="text-xs text-muted font-light">
@@ -918,12 +921,12 @@ export default function ChatbotPage() {
 
                 {/* AI Typing Loader & Cancel Button */}
                 {isTyping && (
-                  <div className="flex flex-col gap-3 max-w-[85%] self-start">
-                    <div className="flex gap-4">
-                      <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center font-display italic text-base flex-shrink-0">
+                  <div className="flex flex-col gap-3 max-w-[95%] sm:max-w-[85%] self-start">
+                    <div className="flex gap-2.5 sm:gap-4">
+                      <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center font-display italic text-sm sm:text-base flex-shrink-0">
                         SB
                       </div>
-                      <div className="bg-zinc-900 border border-zinc-800/60 p-4 rounded-2xl rounded-tl-none flex items-center gap-1.5">
+                      <div className="bg-zinc-900 border border-zinc-800/60 p-3.5 sm:p-4 rounded-2xl rounded-tl-none flex items-center gap-1.5">
                         {[1, 2, 3].map((dot) => (
                           <motion.span
                             key={dot}
@@ -936,7 +939,7 @@ export default function ChatbotPage() {
                     </div>
                     <button
                       onClick={handleCancelGeneration}
-                      className="self-start ml-13 px-3.5 py-1.5 rounded-full bg-zinc-800/90 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700/80 text-xs font-medium flex items-center gap-1.5 transition-all shadow"
+                      className="self-start ml-10 sm:ml-13 px-3.5 py-1.5 rounded-full bg-zinc-800/90 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700/80 text-xs font-medium flex items-center gap-1.5 transition-all shadow"
                     >
                       <span>⏹</span> Stop Generation
                     </button>
@@ -946,7 +949,7 @@ export default function ChatbotPage() {
               </div>
 
               {/* Bottom Sticky Search Input */}
-              <div className="w-full border-t border-zinc-800/40 pt-4 flex justify-center mt-auto">
+              <div className="w-full border-t border-zinc-800/40 pt-3 sm:pt-4 flex justify-center mt-auto">
                 <ChatSearchInput onSend={handleSend} credits={credits} />
               </div>
             </motion.div>

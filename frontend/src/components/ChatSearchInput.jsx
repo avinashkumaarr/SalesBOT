@@ -153,7 +153,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
   };
 
   return (
-    <div className="w-full max-w-3xl relative">
+    <div className="w-full max-w-3xl relative px-1 sm:px-0">
       
       {/* Hidden File Input */}
       <input
@@ -165,32 +165,32 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
       />
 
       {/* 1. Top Status Bar (Dark theme, floating look) */}
-      <div className="w-[96%] mx-auto bg-[#18181b]/95 border border-zinc-800 border-b-0 backdrop-blur-md rounded-t-2xl py-2 px-5 flex items-center justify-between text-xs text-zinc-400">
+      <div className="w-[96%] mx-auto bg-[#18181b]/95 border border-zinc-800 border-b-0 backdrop-blur-md rounded-t-2xl py-1.5 sm:py-2 px-3 sm:px-5 flex items-center justify-between text-[11px] sm:text-xs text-zinc-400 gap-1 overflow-hidden">
         {/* Left Status */}
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-medium font-body text-zinc-300">
-            {credits}/{maxCredits} credits
+        <div className="flex items-center gap-1.5 shrink-0 min-w-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+          <span className="font-medium font-body text-zinc-300 truncate">
+            {credits}/{maxCredits} cr
           </span>
-          <button onClick={handleUpgradeClick} className="bg-white hover:bg-zinc-200 text-black text-[9px] font-bold uppercase px-2 py-0.5 rounded transition-colors cursor-pointer ml-1 shadow">
+          <button onClick={handleUpgradeClick} className="bg-white hover:bg-zinc-200 text-black text-[9px] font-bold uppercase px-1.5 sm:px-2 py-0.5 rounded transition-colors cursor-pointer ml-0.5 shadow shrink-0">
             Upgrade
           </button>
         </div>
         
         {/* Right Status */}
-        <div className="flex items-center gap-1.5 text-zinc-400">
-          <span className="font-body text-zinc-300">Powered by Gemini 2.5 Pro</span>
-          <svg className="w-3.5 h-3.5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21L14.907 18M18 10.5C18 14.642 14.642 18 10.5 18C6.358 18 3 14.642 3 10.5C3 6.358 6.358 3 10.5 3C14.642 3 18 6.358 18 10.5Z" />
+        <div className="flex items-center gap-1 text-[10px] sm:text-xs text-zinc-400 truncate ml-1 shrink-0">
+          <span className="font-body text-zinc-300 truncate">Gemini 2.5</span>
+          <svg className="w-3.5 h-3.5 text-blue-400 shrink-0 hidden sm:inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21L14.907 18M18 10.5C18 14.642 14.642 18 10.5 18C6.358 18 3 14.642 3 10.5C3 6.358 6.358 3 10.5Z" />
           </svg>
         </div>
       </div>
 
       {/* 2. Main Search Input Card (White theme) */}
-      <div className="w-full bg-white rounded-3xl border border-zinc-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] flex flex-col relative overflow-hidden">
+      <div className="w-full bg-white rounded-2xl sm:rounded-3xl border border-zinc-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] flex flex-col relative overflow-hidden">
         
         {/* Input Textarea Area */}
-        <div className="relative flex-1 flex pr-16 min-h-[120px]">
+        <div className="relative flex-1 flex pr-13 sm:pr-16 min-h-[95px] sm:min-h-[120px]">
           <textarea
             ref={textareaRef}
             rows={1}
@@ -198,21 +198,21 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
             onChange={(e) => setInput(e.target.value.slice(0, 3000))}
             onKeyDown={handleKeyDown}
             placeholder="Ask anything..."
-            className="w-full p-6 pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-base sm:text-lg font-body leading-relaxed max-h-[180px]"
+            className="w-full p-4 sm:p-6 pb-2 text-zinc-900 placeholder-zinc-400 bg-transparent resize-none border-none outline-none focus:ring-0 text-sm sm:text-lg font-body leading-relaxed max-h-[160px]"
           />
 
           {/* Send Button */}
           <button
             onClick={handleSend}
             disabled={!input.trim() && !attachedFile}
-            className={`absolute top-5 right-5 w-11 h-11 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 ${
+            className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 ${
               input.trim() || attachedFile
                 ? 'bg-black text-white hover:scale-105 hover:shadow-lg shadow-black/20'
                 : 'bg-zinc-100 text-zinc-300 cursor-not-allowed'
             }`}
           >
             {/* Arrow up icon */}
-            <svg className="w-5 h-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
             </svg>
           </button>
@@ -220,21 +220,21 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
 
         {/* Attachment Indicator Alert */}
         {attachedFile && (
-          <div className="mx-6 mb-2 flex items-center gap-2 bg-zinc-100 border border-zinc-300 px-3 py-1.5 rounded-lg w-max text-xs text-zinc-800 font-medium">
-            <span>📎 {attachedFile.name} ({(attachedFile.size / 1024).toFixed(1)} KB)</span>
-            <button onClick={() => setAttachedFile(null)} className="text-zinc-500 hover:text-black ml-1 cursor-pointer">✕</button>
+          <div className="mx-4 sm:mx-6 mb-2 flex items-center gap-2 bg-zinc-100 border border-zinc-300 px-3 py-1 rounded-lg w-max max-w-[90%] text-xs text-zinc-800 font-medium truncate">
+            <span className="truncate">📎 {attachedFile.name} ({(attachedFile.size / 1024).toFixed(1)} KB)</span>
+            <button onClick={() => setAttachedFile(null)} className="text-zinc-500 hover:text-black ml-1 cursor-pointer shrink-0">✕</button>
           </div>
         )}
 
         {/* 3. Bottom Toolbar */}
-        <div className="border-t border-zinc-100 px-6 py-4 flex items-center justify-between text-zinc-500 relative">
+        <div className="border-t border-zinc-100 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between text-zinc-500 relative">
           
           {/* Action buttons (Left) */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             {/* Attach button */}
             <button
               onClick={handleFileAttach}
-              className="flex items-center gap-1 text-[11px] sm:text-xs font-semibold tracking-wide text-zinc-500 hover:text-black hover:bg-zinc-100 px-3 py-1.5 rounded-full transition-all cursor-pointer"
+              className="flex items-center gap-1 text-[11px] sm:text-xs font-semibold tracking-wide text-zinc-500 hover:text-black hover:bg-zinc-100 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer"
             >
               <span>📎</span> Attach
             </button>
@@ -242,7 +242,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
             {/* Voice button */}
             <button
               onClick={toggleVoice}
-              className={`flex items-center gap-1 text-[11px] sm:text-xs font-semibold tracking-wide px-3 py-1.5 rounded-full transition-all cursor-pointer ${
+              className={`flex items-center gap-1 text-[11px] sm:text-xs font-semibold tracking-wide px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer ${
                 isListening
                   ? 'bg-red-500/10 text-red-600 font-bold'
                   : 'text-zinc-500 hover:text-black hover:bg-zinc-100'
@@ -254,7 +254,7 @@ export default function ChatSearchInput({ onSend, credits = 60, maxCredits = 450
           </div>
 
           {/* Character counter (Right) */}
-          <div className="text-xs text-zinc-400 font-body">
+          <div className="text-[10px] sm:text-xs text-zinc-400 font-body shrink-0">
             {input.length}/3000
           </div>
         </div>
