@@ -25,19 +25,11 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 
-// CORS
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
-    // Expo mobile app (Android emulator + iOS simulator + LAN)
-    'http://10.0.2.2:3001',
-    'http://localhost:8081',
-    /^exp:\/\//,
-    /^http:\/\/192\.168\./,
-    /^http:\/\/10\./,
-  ],
+  origin: (origin, callback) => {
+    // Dynamically accept any origin (Vercel, Render, localhost, Mobile APK, etc.) with credentials enabled
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
