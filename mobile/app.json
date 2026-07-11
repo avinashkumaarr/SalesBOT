@@ -6,22 +6,30 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "scheme": "salesbot",
+    "icon": "./assets/icon.png",
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.salesbot.ai",
+      "icon": "./assets/icon.png",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "SalesBOT uses the microphone for voice search."
       }
     },
     "android": {
       "package": "com.salesbot.ai",
+      "icon": "./assets/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#09090b"
+      },
       "permissions": [
         "RECORD_AUDIO"
       ],
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router",
@@ -34,3 +42,4 @@
     }
   }
 }
+
