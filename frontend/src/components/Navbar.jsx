@@ -4,12 +4,31 @@ import AuthModal from './AuthModal';
 import ProfileModal from './ProfileModal';
 import { API_BASE } from '../utils/apiConfig';
 
+function getDeviceOS() {
+  const ua = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+  if (/Android/i.test(ua)) return 'android';
+  return 'desktop';
+}
+
 export default function Navbar({ currentPath }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState('Home');
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [deviceOS, setDeviceOS] = useState('desktop');
+  const [showIOSToast, setShowIOSToast] = useState(false);
+
+  useEffect(() => { setDeviceOS(getDeviceOS()); }, []);
+
+  const handleAPKClick = (e) => {
+    if (deviceOS === 'ios') {
+      e.preventDefault();
+      setShowIOSToast(true);
+      setTimeout(() => setShowIOSToast(false), 5000);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -171,18 +190,31 @@ export default function Navbar({ currentPath }) {
         {/* 6. Divider */}
         <div className="w-px h-5 bg-stroke mx-2 hidden sm:block shrink-0" />
 
-        {/* 7. Download APK button */}
-        <a
-          href="/SalesBOT.apk"
-          download="SalesBOT.apk"
-          className="relative p-[1px] rounded-full overflow-hidden group/apk cursor-pointer flex items-center justify-center hidden sm:flex shadow-md shadow-emerald-500/10 shrink-0"
-          title="Download SalesBOT APK for Android & iOS"
-        >
-          <div className="absolute inset-[-2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-70 group-hover/apk:opacity-100 transition-opacity duration-300 animate-pulse" />
-          <div className="relative bg-surface/95 backdrop-blur-md text-emerald-400 group-hover/apk:text-white transition-colors duration-300 rounded-full px-3.5 py-1.5 sm:py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap">
-            <span>📱</span> Download APK
-          </div>
-        </a>
+        {/* 7. Download APK button — OS-aware */}
+        <div className="relative hidden sm:flex shrink-0">
+          <a
+            href={deviceOS === 'ios' ? '#' : '/SalesBOT.apk'}
+            download={deviceOS === 'ios' ? undefined : 'SalesBOT.apk'}
+            onClick={handleAPKClick}
+            className="relative p-[1px] rounded-full overflow-hidden group/apk cursor-pointer flex items-center justify-center shadow-md shadow-emerald-500/10"
+            title={deviceOS === 'ios' ? 'iOS App coming soon to App Store' : 'Download SalesBOT APK for Android'}
+          >
+            <div className="absolute inset-[-2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-70 group-hover/apk:opacity-100 transition-opacity duration-300 animate-pulse" />
+            <div className="relative bg-surface/95 backdrop-blur-md text-emerald-400 group-hover/apk:text-white transition-colors duration-300 rounded-full px-3.5 py-1.5 sm:py-2 flex items-center gap-1.5 text-xs sm:text-sm font-semibold whitespace-nowrap">
+              <span>{deviceOS === 'ios' ? '🍎' : '📱'}</span>
+              {deviceOS === 'ios' ? 'iOS — Soon' : 'Download APK'}
+            </div>
+          </a>
+          {/* iOS tooltip */}
+          {showIOSToast && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 bg-zinc-900 border border-zinc-700 rounded-2xl p-4 shadow-2xl z-[999] text-center">
+              <div className="text-xl mb-1">🍎</div>
+              <div className="text-white font-semibold text-xs mb-1">iOS App Coming Soon!</div>
+              <div className="text-zinc-400 text-[10px] leading-relaxed">The SalesBOT iOS app is on its way to the App Store. Our website works great on Safari in the meantime!</div>
+              <div className="mt-2 text-emerald-400 text-[10px] font-medium">✅ AI shopping fully works on mobile Safari</div>
+            </div>
+          )}
+        </div>
 
         {/* 8. Auth / Profile Pill */}
         <div className="w-px h-4 sm:h-5 bg-stroke mx-1 sm:mx-2 shrink-0" />

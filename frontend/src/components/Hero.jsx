@@ -5,10 +5,19 @@ import Hls from 'hls.js';
 const ROLES = ["Amazon & Flipkart", "Croma & Reliance", "Price Drop Alert", "AI Score 9.8/10"];
 const VIDEO_URL = "https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8";
 
+function getDeviceOS() {
+  const ua = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+  if (/Android/i.test(ua)) return 'android';
+  return 'desktop';
+}
+
 export default function Hero() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [roleIndex, setRoleIndex] = useState(0);
+  const [deviceOS, setDeviceOS] = useState('desktop');
+  const [showIOSToast, setShowIOSToast] = useState(false);
 
   // 1. Roles Cycling (every 2s)
   useEffect(() => {
@@ -17,6 +26,17 @@ export default function Hero() {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+
+  // 2. Detect OS once on mount
+  useEffect(() => { setDeviceOS(getDeviceOS()); }, []);
+
+  const handleDownloadClick = (e) => {
+    if (deviceOS === 'ios') {
+      e.preventDefault();
+      setShowIOSToast(true);
+      setTimeout(() => setShowIOSToast(false), 5000);
+    }
+  };
 
   // 2. GSAP Entrance Animations
   useEffect(() => {
@@ -132,18 +152,32 @@ export default function Hero() {
             </div>
           </button>
 
-          {/* Download APK / App */}
-          <a
-            href="/SalesBOT.apk"
-            download="SalesBOT.apk"
-            className="relative group p-[1.5px] rounded-full hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden flex items-center justify-center shadow-lg shadow-emerald-500/10"
-            title="Download SalesBOT APK for Android & iOS"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-80 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
-            <div className="relative px-8 py-3.5 rounded-full bg-zinc-950 text-emerald-400 group-hover:text-white text-sm font-bold transition-all duration-300 flex items-center gap-2">
-              <span>📱</span> Download APK / App ↗
-            </div>
-          </a>
+          {/* Download APK / App — OS-aware */}
+          <div className="relative">
+            <a
+              href={deviceOS === 'ios' ? '#' : '/SalesBOT.apk'}
+              download={deviceOS === 'ios' ? undefined : 'SalesBOT.apk'}
+              onClick={handleDownloadClick}
+              className="relative group p-[1.5px] rounded-full hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden flex items-center justify-center shadow-lg shadow-emerald-500/10"
+              title={deviceOS === 'ios' ? 'iOS App coming soon' : 'Download SalesBOT APK for Android'}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400 opacity-80 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
+              <div className="relative px-8 py-3.5 rounded-full bg-zinc-950 text-emerald-400 group-hover:text-white text-sm font-bold transition-all duration-300 flex items-center gap-2">
+                <span>{deviceOS === 'ios' ? '🍎' : '📱'}</span>
+                {deviceOS === 'ios' ? 'iOS App — Coming Soon' : 'Download APK (Android) ↗'}
+              </div>
+            </a>
+            {/* iOS Toast Notification */}
+            {showIOSToast && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 bg-zinc-900 border border-zinc-700 rounded-2xl p-4 shadow-2xl z-50 text-center animate-fade-in">
+                <div className="text-2xl mb-1">🍎</div>
+                <div className="text-white font-semibold text-sm mb-1">iOS App Coming Soon!</div>
+                <div className="text-zinc-400 text-xs leading-relaxed">The SalesBOT iOS app is on its way to the App Store. In the meantime, use our website — it works great on Safari!</div>
+                <div className="mt-2.5 w-full h-px bg-zinc-700" />
+                <div className="mt-2 text-emerald-400 text-xs font-medium">✅ Full AI shopping works on mobile Safari</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

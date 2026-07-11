@@ -50,6 +50,14 @@ function LoanStatusBanner({ stage, onDownloadPDF, applicationId }) {
   );
 }
 
+// ─── OS Detection ─────────────────────────────────────────────────────────────
+function getDeviceOS() {
+  const ua = navigator.userAgent || '';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
+  if (/Android/i.test(ua)) return 'android';
+  return 'desktop';
+}
+
 // ─── Main ChatbotPage ─────────────────────────────────────────────────────────
 export default function ChatbotPage() {
   const [messages, setMessages] = useState([]);
@@ -70,6 +78,18 @@ export default function ChatbotPage() {
   const [editText, setEditText] = useState("");
   const [selectedCompareProduct, setSelectedCompareProduct] = useState(null);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const [deviceOS, setDeviceOS] = useState('desktop');
+  const [showIOSToast, setShowIOSToast] = useState(false);
+
+  useEffect(() => { setDeviceOS(getDeviceOS()); }, []);
+
+  const handleAPKClick = (e) => {
+    if (deviceOS === 'ios') {
+      e.preventDefault();
+      setShowIOSToast(true);
+      setTimeout(() => setShowIOSToast(false), 5000);
+    }
+  };
 
   // ── Mobile Visual Viewport Keyboard Tracking ──────────────────────────────
   useEffect(() => {
@@ -523,30 +543,49 @@ export default function ChatbotPage() {
                 ))}
               </div>
 
-              {/* Download APK Banner */}
-              <div className="mt-6 sm:mt-8 flex items-center justify-center w-full max-w-md px-1 sm:px-0">
+              {/* Download Banner — OS-aware */}
+              <div className="mt-6 sm:mt-8 flex items-center justify-center w-full max-w-md px-1 sm:px-0 relative">
                 <a
-                  href="/SalesBOT.apk"
-                  download="SalesBOT.apk"
+                  href={deviceOS === 'ios' ? '#' : '/SalesBOT.apk'}
+                  download={deviceOS === 'ios' ? undefined : 'SalesBOT.apk'}
+                  onClick={handleAPKClick}
                   className="group flex items-center justify-between sm:justify-center gap-2.5 sm:gap-3 bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-emerald-500/30 hover:border-emerald-500/80 rounded-2xl px-4 sm:px-5 py-2.5 sm:py-3 shadow-lg shadow-emerald-500/10 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
-                  title="Download SalesBOT APK for Android & iOS"
+                  title={deviceOS === 'ios' ? 'iOS App coming soon to App Store' : 'Download SalesBOT APK for Android'}
                 >
                   <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-lg sm:text-xl shrink-0">
-                      📱
+                      {deviceOS === 'ios' ? '🍎' : '📱'}
                     </div>
                     <div className="text-left min-w-0">
                       <div className="text-[11px] sm:text-xs font-bold text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-                        <span className="truncate">Download SalesBOT App</span>
-                        <span className="bg-emerald-500/20 text-emerald-400 text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded-full uppercase font-mono shrink-0">v1.0.0</span>
+                        <span className="truncate">
+                          {deviceOS === 'ios' ? 'iOS App — Coming to App Store' : 'Download SalesBOT App'}
+                        </span>
+                        {deviceOS !== 'ios' && (
+                          <span className="bg-emerald-500/20 text-emerald-400 text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded-full uppercase font-mono shrink-0">v1.0.0</span>
+                        )}
                       </div>
-                      <div className="text-[9px] sm:text-[10px] text-zinc-400 truncate">Android APK & iOS Compatible • Live Multi-Store Pricing</div>
+                      <div className="text-[9px] sm:text-[10px] text-zinc-400 truncate">
+                        {deviceOS === 'ios'
+                          ? '🍎 Our website works great on Safari — same full AI!'
+                          : 'Android APK • Live Multi-Store Pricing'}
+                      </div>
                     </div>
                   </div>
                   <div className="text-zinc-500 group-hover:text-white transition-colors ml-1 sm:ml-2 font-bold shrink-0">
-                    ↓
+                    {deviceOS === 'ios' ? '⏳' : '↓'}
                   </div>
                 </a>
+                {/* iOS toast */}
+                {showIOSToast && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 bg-zinc-900 border border-zinc-700 rounded-2xl p-4 shadow-2xl z-50 text-center">
+                    <div className="text-2xl mb-1">🍎</div>
+                    <div className="text-white font-semibold text-sm mb-1">iOS App Coming Soon!</div>
+                    <div className="text-zinc-400 text-xs leading-relaxed">Our iOS app is on its way to the App Store. In the meantime, SalesBOT works perfectly on Safari on your iPhone!</div>
+                    <div className="mt-2.5 w-full h-px bg-zinc-700" />
+                    <div className="mt-2 text-emerald-400 text-xs font-medium">✅ Full AI shopping works right here in Safari</div>
+                  </div>
+                )}
               </div>
             </motion.div>
           ) : (
