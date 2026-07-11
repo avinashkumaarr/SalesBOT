@@ -2,12 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content, viewport-fit=cover" />
-    <title>ShopBot AI — India's #1 AI Shopping Brain & Multi-Store Assistant</title>
+
+    <!-- ── Viewport ─────────────────────────────────────────────────────── -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <!-- ── Title & Description ──────────────────────────────────────────── -->
+    <title>SalesBOT — India's #1 AI Shopping Brain & Multi-Store Assistant</title>
+    <meta name="description" content="Compare live prices across Amazon, Flipkart, Croma, Reliance Digital & Vijay Sales. AI-powered scoring, hardware spec analysis, price history & voice search." />
+    <meta name="keywords" content="AI shopping, price comparison, Amazon India, Flipkart, Croma, best deals, ShopBot" />
+    <meta name="author" content="SalesBOT" />
+
+    <!-- ── PWA Manifest ──────────────────────────────────────────────────── -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- ── Theme Color (Chrome address bar & Android status bar) ─────────── -->
+    <meta name="theme-color" content="#09090b" />
+    <meta name="msapplication-TileColor" content="#09090b" />
+    <meta name="msapplication-TileImage" content="/icon-144.png" />
+
+    <!-- ── Standard Favicon ─────────────────────────────────────────────── -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+
+    <!-- ── Apple / iOS PWA Tags ─────────────────────────────────────────── -->
+    <!-- Makes the app run full-screen (no Safari address bar) when added to Home Screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SalesBOT" />
+
+    <!-- Apple Touch Icons for every iPhone / iPad size -->
+    <link rel="apple-touch-icon"                        href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57"          href="/icon-57.png" />
+    <link rel="apple-touch-icon" sizes="60x60"          href="/icon-60.png" />
+    <link rel="apple-touch-icon" sizes="72x72"          href="/icon-72.png" />
+    <link rel="apple-touch-icon" sizes="76x76"          href="/icon-76.png" />
+    <link rel="apple-touch-icon" sizes="114x114"        href="/icon-114.png" />
+    <link rel="apple-touch-icon" sizes="120x120"        href="/icon-120.png" />
+    <link rel="apple-touch-icon" sizes="144x144"        href="/icon-144.png" />
+    <link rel="apple-touch-icon" sizes="152x152"        href="/icon-152.png" />
+    <link rel="apple-touch-icon" sizes="167x167"        href="/icon-167.png" />
+    <link rel="apple-touch-icon" sizes="180x180"        href="/icon-180.png" />
+
+    <!-- Apple Splash Screens (launch screens shown while app loads) -->
+    <!-- iPhone SE (640×1136) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"  href="/icon-1024.png" />
+    <!-- iPhone 8 / SE 2020 (750×1334) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"  href="/icon-1024.png" />
+    <!-- iPhone 14 / 15 (1170×2532) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)"  href="/icon-1024.png" />
+    <!-- iPhone 15 Pro Max (1290×2796) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)"  href="/icon-1024.png" />
+
+    <!-- ── Open Graph / Social ──────────────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SalesBOT — AI Shopping Assistant" />
+    <meta property="og:description" content="Compare live prices across 50+ stores. AI-powered product scoring & price history." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SalesBOT — AI Shopping Assistant" />
+    <meta name="twitter:description" content="India's #1 AI Shopping Brain." />
+    <meta name="twitter:image" content="/icon-512.png" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- ── Register Service Worker ──────────────────────────────────────── -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('[SW] Registered:', reg.scope))
+            .catch(err => console.warn('[SW] Registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>
+

@@ -85,14 +85,38 @@
 
     if (isIOS) {
       card.innerHTML = `
-        <div class="icon">🍎</div>
-        <div class="badge">iOS</div>
-        <h1>iOS App Coming Soon!</h1>
-        <p>The SalesBOT iOS app is currently in development and will be available on the App Store soon.</p>
-        <p>In the meantime, <strong style="color:#10b981">our website works perfectly on Safari</strong> — all AI shopping features, price comparison, and live multi-store search work exactly the same!</p>
-        <a href="/" class="btn btn-ios">🛍️ Open SalesBOT in Safari</a>
+        <img src="/apple-touch-icon.png" width="80" height="80" style="border-radius:18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,0.6);" alt="SalesBOT icon"/>
+        <div class="badge">🍎 iPhone / iPad</div>
+        <h1>Install SalesBOT on iPhone</h1>
+        <p>Follow these 3 steps to install SalesBOT on your iPhone home screen — it works <strong style="color:#10b981">exactly like a native app</strong>, full screen with no browser bar!</p>
+
+        <div style="text-align:left;margin-bottom:20px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+            <div style="min-width:32px;height:32px;border-radius:50%;background:#10b981;color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px;">1</div>
+            <div>
+              <div style="color:#fff;font-weight:600;font-size:14px;margin-bottom:2px;">Tap the Share button</div>
+              <div style="color:#a1a1aa;font-size:12px;">Tap the <strong style="color:#fff">⎙ Share</strong> icon at the bottom of Safari (the square with an arrow pointing up)</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+            <div style="min-width:32px;height:32px;border-radius:50%;background:#10b981;color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px;">2</div>
+            <div>
+              <div style="color:#fff;font-weight:600;font-size:14px;margin-bottom:2px;">Add to Home Screen</div>
+              <div style="color:#a1a1aa;font-size:12px;">Scroll down in the share menu and tap <strong style="color:#fff">"Add to Home Screen"</strong></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="min-width:32px;height:32px;border-radius:50%;background:#10b981;color:#000;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:15px;">3</div>
+            <div>
+              <div style="color:#fff;font-weight:600;font-size:14px;margin-bottom:2px;">Tap Add</div>
+              <div style="color:#a1a1aa;font-size:12px;">Tap <strong style="color:#fff">"Add"</strong> in the top right — SalesBOT will appear on your home screen!</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="/" class="btn btn-android">🛍️ Open SalesBOT in Safari First</a>
         <div class="divider"></div>
-        <div class="note">APK files are Android-only and cannot be installed on iPhone or iPad.</div>
+        <div class="note">✅ Once installed, it opens full-screen with no browser bar — just like a native app!</div>
       `;
     } else if (isAndroid) {
       card.innerHTML = `
