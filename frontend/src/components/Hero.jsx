@@ -18,17 +18,6 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // 2. Detect OS once on mount
-  useEffect(() => { setDeviceOS(getDeviceOS()); }, []);
-
-  const handleDownloadClick = (e) => {
-    if (deviceOS === 'ios') {
-      e.preventDefault();
-      setShowIOSToast(true);
-      setTimeout(() => setShowIOSToast(false), 5000);
-    }
-  };
-
   // 2. GSAP Entrance Animations
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -1,7 +1,7 @@
-const CACHE_NAME = 'salesbot-v1.0.3';
+const CACHE_NAME = 'salesbot-v1.0.4';
 const STATIC_ASSETS = [
   '/',
-  '/chatbot',
+  '/index.html',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
