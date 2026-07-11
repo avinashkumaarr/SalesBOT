@@ -10,7 +10,6 @@ import Stats from './components/Stats';
 import Footer from './components/Footer';
 import ChatbotPage from './components/ChatbotPage';
 import PlansSection from './components/PlansSection';
-import PWAInstallBanner from './components/PWAInstallBanner';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -84,9 +83,6 @@ function App() {
           </AnimatePresence>
         </div>
       )}
-
-      {/* PWA Install Banner — shown to iOS Safari & Android Chrome users who haven't installed yet */}
-      {!isLoading && <PWAInstallBanner />}
     </>
   );
 }
