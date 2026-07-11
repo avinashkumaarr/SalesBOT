@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download SalesBOT</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #09090b;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    p { font-size: 14px; color: #a1a1aa; line-height: 1.6; margin-bottom: 24px; }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+      margin-bottom: 12px;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-android {
+      background: linear-gradient(90deg, #10b981, #06b6d4);
+      color: #000;
+    }
+    .btn-ios {
+      background: #27272a;
+      color: #e4e4e7;
+      border: 1px solid #3f3f46;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(16,185,129,0.15);
+      color: #10b981;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: #27272a;
+      margin: 20px 0;
+    }
+    .note { font-size: 12px; color: #52525b; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <!-- Content filled by JS below -->
+  </div>
+
+  <script>
+    const ua = navigator.userAgent || '';
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    const card = document.getElementById('card');
+
+    if (isIOS) {
+      card.innerHTML = `
+        <div class="icon">🍎</div>
+        <div class="badge">iOS</div>
+        <h1>iOS App Coming Soon!</h1>
+        <p>The SalesBOT iOS app is currently in development and will be available on the App Store soon.</p>
+        <p>In the meantime, <strong style="color:#10b981">our website works perfectly on Safari</strong> — all AI shopping features, price comparison, and live multi-store search work exactly the same!</p>
+        <a href="/" class="btn btn-ios">🛍️ Open SalesBOT in Safari</a>
+        <div class="divider"></div>
+        <div class="note">APK files are Android-only and cannot be installed on iPhone or iPad.</div>
+      `;
+    } else if (isAndroid) {
+      card.innerHTML = `
+        <div class="icon">📱</div>
+        <div class="badge">Android</div>
+        <h1>Download SalesBOT</h1>
+        <p>Get the full AI shopping experience on your Android device. Compare prices across Amazon, Flipkart, Croma, Reliance Digital & Vijay Sales in real-time.</p>
+        <a href="/SalesBOT.apk" download="SalesBOT.apk" class="btn btn-android">⬇️ Download APK (v1.0.0 · 45 MB)</a>
+        <a href="/" class="btn btn-ios">🌐 Continue on Website</a>
+      `;
+    } else {
+      // Desktop
+      card.innerHTML = `
+        <div class="icon">📱</div>
+        <div class="badge">Mobile App</div>
+        <h1>SalesBOT Mobile App</h1>
+        <p>Download SalesBOT on your Android phone for the best AI shopping experience.</p>
+        <a href="/SalesBOT.apk" download="SalesBOT.apk" class="btn btn-android">⬇️ Download Android APK (v1.0.0)</a>
+        <div class="divider"></div>
+        <div style="display:flex;align-items:center;gap:10px;justify-content:center;color:#52525b;font-size:13px;">
+          <span>🍎</span>
+          <span>iOS App — Coming to App Store soon</span>
+        </div>
+        <div class="divider"></div>
+        <a href="/" class="btn btn-ios">← Back to Website</a>
+      `;
+    }
+  </script>
+</body>
+</html>
